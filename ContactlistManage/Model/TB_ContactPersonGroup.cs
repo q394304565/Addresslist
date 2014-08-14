@@ -6,13 +6,13 @@ namespace Model
     /// 联系人组
     /// </summary>
     [Table(Name = "TB_ContactPersonGroup")]
-    public class TB_ContactPersonGroup
+    public class TB_ContactPersonGroup : IModel
     {
 
         /// <summary>
         /// 编号
         /// </summary>	
-        [Column(Name = "Id", IsPrimaryKey = true)]
+        [Column(Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id { get; set; }
         /// <summary>
         /// 名称
@@ -24,6 +24,11 @@ namespace Model
         /// </summary>	
         [Column(Name = "ParentId")]
         public int ParentId { get; set; }
+        /// <summary>
+        /// 所属用户编号
+        /// </summary>	
+        [Column(Name = "UId")]
+        public int UId { get; set; }
         /// <summary>
         /// 是否删除
         /// </summary>	

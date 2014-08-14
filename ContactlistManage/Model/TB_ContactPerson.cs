@@ -6,13 +6,13 @@ namespace Model
     /// 联系人
     /// </summary>
     [Table(Name = "TB_ContactPerson")]
-    public class TB_ContactPerson
+    public class TB_ContactPerson : IModel
     {
 
         /// <summary>
         /// 编号
         /// </summary>	
-        [Column(Name = "Id", IsPrimaryKey = true)]
+        [Column(Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id { get; set; }
         /// <summary>
         /// 姓名
@@ -59,6 +59,11 @@ namespace Model
         /// </summary>	
         [Column(Name = "Favicon")]
         public byte[] Favicon { get; set; }
+        /// <summary>
+        /// 所属用户编号
+        /// </summary>	
+        [Column(Name = "UId")]
+        public int UId { get; set; }
         /// <summary>
         /// 是否删除
         /// </summary>	

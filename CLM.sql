@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  CLM                                          */
 /* DBMS name:      Microsoft SQL Server 2005                    */
-/* Created on:     14-8-13 18:56:37                             */
+/* Created on:     14-8-14 15:45:47                             */
 /*==============================================================*/
 
 
@@ -31,6 +31,7 @@ create table TB_ContactPerson (
    EMail                nvarchar(50)         null,
    Address              nvarchar(100)        null,
    Favicon              image                null,
+   UId                  int                  not null,
    Deleted              bit                  not null default 0,
    constraint PK_TB_CONTACTPERSON primary key (Id)
 )
@@ -43,6 +44,7 @@ create table TB_ContactPersonGroup (
    Id                   int                  identity(1,1) not for replication,
    Name                 nvarchar(50)         not null,
    ParentId             int                  not null default 0,
+   UId                  int                  not null,
    Deleted              bit                  not null default 0,
    constraint PK_TB_CONTACTPERSONGROUP primary key (Id)
 )

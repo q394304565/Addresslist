@@ -41,8 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enumeration.cs" />
+    <Compile Include="GlobalData.cs" />
+    <Compile Include="IBLL.cs" />
     <Compile Include="ObjectEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{A96E3304-5CA0-439B-8A6F-E0C6FF0BB964}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

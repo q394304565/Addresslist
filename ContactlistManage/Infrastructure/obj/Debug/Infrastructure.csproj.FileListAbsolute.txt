@@ -2,3 +2,10 @@ E:\实验\Contactlist\ContactlistManage\Infrastructure\bin\Debug\Infrastructure.
 E:\实验\Contactlist\ContactlistManage\Infrastructure\bin\Debug\Infrastructure.pdb
 E:\实验\Contactlist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.dll
 E:\实验\Contactlist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.pdb
+E:\实验\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Infrastructure.dll
+E:\实验\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Infrastructure.pdb
+E:\实验\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Model.dll
+E:\实验\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Model.pdb
+E:\实验\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.dll
+E:\实验\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.pdb
+E:\实验\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.csprojResolveAssemblyReference.cache

@@ -2,3 +2,7 @@ E:\实验\Contactlist\ContactlistManage\Model\bin\Debug\Model.dll
 E:\实验\Contactlist\ContactlistManage\Model\bin\Debug\Model.pdb
 E:\实验\Contactlist\ContactlistManage\Model\obj\Debug\Model.dll
 E:\实验\Contactlist\ContactlistManage\Model\obj\Debug\Model.pdb
+E:\实验\Addresslist\ContactlistManage\Model\bin\Debug\Model.dll
+E:\实验\Addresslist\ContactlistManage\Model\bin\Debug\Model.pdb
+E:\实验\Addresslist\ContactlistManage\Model\obj\Debug\Model.dll
+E:\实验\Addresslist\ContactlistManage\Model\obj\Debug\Model.pdb

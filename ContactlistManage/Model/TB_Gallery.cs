@@ -4,13 +4,13 @@ namespace Model
 {
     //TB_Gallery
     [Table(Name = "TB_Gallery")]
-    public class TB_Gallery
+    public class TB_Gallery : IModel
     {
 
         /// <summary>
         /// Id
         /// </summary>	
-        [Column(Name = "Id", IsPrimaryKey = true)]
+        [Column(Name = "Id", IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id { get; set; }
         /// <summary>
         /// Name

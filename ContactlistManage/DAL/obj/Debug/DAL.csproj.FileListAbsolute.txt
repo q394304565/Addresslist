@@ -7,3 +7,12 @@ E:\实验\Contactlist\ContactlistManage\DAL\bin\Debug\Infrastructure.pdb
 E:\实验\Contactlist\ContactlistManage\DAL\bin\Debug\Model.pdb
 E:\实验\Contactlist\ContactlistManage\DAL\obj\Debug\DAL.dll
 E:\实验\Contactlist\ContactlistManage\DAL\obj\Debug\DAL.pdb
+E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\DAL.dll
+E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\DAL.pdb
+E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\Infrastructure.dll
+E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\Model.dll
+E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\Infrastructure.pdb
+E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\Model.pdb
+E:\实验\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+E:\实验\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.dll
+E:\实验\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.pdb

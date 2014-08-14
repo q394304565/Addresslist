@@ -4,32 +4,37 @@ using Model;
 
 namespace BLL
 {
-    public class UserBLL : IBLL
+    public partial class BLLOperate
     {
-        readonly UseDAL _dal = new UseDAL();
+        /// <summary>
+        /// 注册用户
+        /// </summary>
+        /// <param name="user">用户信息</param>
+        /// <returns></returns>
         public TB_User Register(TB_User user)
         {
-            return _dal.Register(user);
+            return _dalOperate.Register(user);
         }
 
+        /// <summary>
+        /// 验证用户登录
+        /// </summary>
+        /// <param name="uName">用户名</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
         public TB_User UserLogin(string uName, string password)
         {
-           return _dal.UserLogin(uName, password);
+            return _dalOperate.UserLogin(uName, password);
         }
 
-        public List<T> GetItems<T>() where T : class
+        /// <summary>
+        /// 检查用户名是否存在
+        /// </summary>
+        /// <param name="uName">用户名</param>
+        /// <returns></returns>
+        public bool CheckUserName(string uName)
         {
-            return DbHelper.GetTable<T>();
-        }
-
-        public int AddOrModifyItem<T>(IModel item) where T : class
-        {
-            return DbHelper.AddOrModifyItem<T>(item);
-        }
-
-        public int DeleteItem<T>(int id) where T : class
-        {
-            return DbHelper.DeleteItem<T>(id);
+            return _dalOperate.CheckUserName(uName);
         }
     }
 }

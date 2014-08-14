@@ -7,7 +7,7 @@ using Model;
 
 namespace DAL
 {
-    public class UseDAL
+    public partial class DALOperate
     {
         /// <summary>
         /// 验证用户登录
@@ -19,7 +19,20 @@ namespace DAL
         {
             using (var dc = new DataContext(DbHelper.Sqlconn()))
             {
-                return dc.GetTable<TB_User>().FirstOrDefault(p => p.UName == uName && p.Password == password);
+                return dc.GetTable<TB_User>().FirstOrDefault(p => p.UName == uName.ToLower() && p.Password == password && !p.Deleted);
+            }
+        }
+
+        /// <summary>
+        /// 检查用户名是否存在
+        /// </summary>
+        /// <param name="uName">用户名</param>
+        /// <returns></returns>
+        public bool CheckUserName(string uName)
+        {
+            using (var dc = new DataContext(DbHelper.Sqlconn()))
+            {
+                return dc.GetTable<TB_User>().Any(p => p.UName == uName.ToLower() && !p.Deleted);
             }
         }
 
@@ -43,22 +56,8 @@ namespace DAL
         {
             using (var dc = new DataContext(DbHelper.Sqlconn()))
             {
-                return dc.GetTable<TB_User>().FirstOrDefault(p => p.Id == id);
+                return dc.GetTable<TB_User>().FirstOrDefault(p => p.Id == id && !p.Deleted);
             }
-        }
-
-        public List<TB_User> GetAllUser()
-        {
-            try
-            {
-                return DbHelper.GetTable<TB_User>();
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
-            }
-
         }
     }
 }

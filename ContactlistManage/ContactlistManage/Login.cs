@@ -1,34 +1,75 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using BLL;
+using Infrastructure;
 using Model;
 
 namespace ContactlistManage
 {
-    public partial class Login : Form
+    public partial class Login : FormBase
     {
-        private readonly UserBLL _userBll;
         public Login()
         {
             InitializeComponent();
-             _userBll = new UserBLL();
         }
 
-        private void Login_Load(object sender, EventArgs e)
-        {
-
-        }
-        
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLogin_Click(object sender, EventArgs e)
         {
-           var user= _userBll.UserLogin(txtUName.Text, txtPassword.Text);
-            MessageBox.Show(user.Name);
+            if (VerifyRequired(txtUName))
+            {
+                lbMessage.ForeColor = Color.Red;
+                lbMessage.Text = "用户名不能为空";
+                return;
+            }
+            if (VerifyRequired(txtPassword))
+            {
+                lbMessage.ForeColor = Color.Red;
+                lbMessage.Text = "密码不能为空";
+                return;
+            }
+            HandleData(() =>
+            {
+                TB_User user = BLLOperate.UserLogin(txtUName.Text, txtPassword.Text);
+                if (user != null)
+                {
+                    GlobalData.Current.CurrentUser = user;
+                    MessageBox.Show(this, string.Format("欢迎{0}登录！", string.IsNullOrEmpty(user.Name) ? user.UName : user.Name));
+                    Hide();
+                    var main = new Main();
+                    main.Show();
+                }
+                else
+                {
+                    MessageBox.Show(this, "登录失败，用户名或密码错误！");
+                }
+            }, s => MessageBox.Show(this, "登录失败,数据访问出错！"));
+        }
+
+        /// <summary>
+        /// 注册
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            var reg = new Register();
+            Hide();
+            if (reg.ShowDialog(this) == DialogResult.OK)
+            {
+                Hide();
+                var main = new Main();
+                main.Show();
+            }
+            else
+            {
+                Show();
+            }
         }
     }
 }

@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContactPersonDAL.cs" />
+    <Compile Include="ContactPersonGroupDAL.cs" />
     <Compile Include="DbHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseDAL.cs" />

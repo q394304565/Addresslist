@@ -67,36 +67,28 @@ namespace Model
         /// <returns></returns>
         public static int AddOrModifyItem<T>(IModel item) where T : class//AddOrModifyItem
         {
-            try
+            using (var dc = new DataContext(Sqlconn()))
             {
-                using (var dc = new DataContext(Sqlconn()))
+                var table = dc.GetTable<T>();
+                if (item.Id == 0)
                 {
-                    var table = dc.GetTable<T>();
-                    if (item.Id == 0)
+                    table.InsertOnSubmit(item as T);
+                }
+                else
+                {
+                    var oldItem = table.FirstOrDefault(p => ((IModel)p).Id == item.Id && !((IModel)p).Deleted);
+                    if (oldItem != null)
                     {
-                        table.InsertOnSubmit(item as T);
+                        oldItem.CopyFromEx(item as T);
                     }
                     else
                     {
-                        var oldItem = table.FirstOrDefault(p => ((IModel)p).Id == item.Id);
-                        if (oldItem != null)
-                        {
-                            oldItem.CopyFromEx(item as T);
-                        }
-                        else
-                        {
-                            return 0;
-                        }
+                        return 0;
                     }
-                    dc.SubmitChanges();
                 }
-                return Convert.ToInt32(item.Id);
+                dc.SubmitChanges();
             }
-            catch (Exception)
-            {        
-                throw;
-            }
-
+            return Convert.ToInt32(item.Id);
         }
 
         /// <summary>
@@ -110,7 +102,7 @@ namespace Model
             using (var dc = new DataContext(Sqlconn()))
             {
                 var table = dc.GetTable<T>();
-                dynamic oldItem = table.FirstOrDefault(p => ((IModel)p).Id == id);
+                dynamic oldItem = table.FirstOrDefault(p => ((IModel)p).Id == id && !((IModel)p).Deleted);
                 if (oldItem != null)
                 {
                     oldItem.Deleted = true;
