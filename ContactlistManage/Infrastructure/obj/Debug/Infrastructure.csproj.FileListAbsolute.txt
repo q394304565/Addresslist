@@ -1,0 +1,4 @@
+E:\实验\Contactlist\ContactlistManage\Infrastructure\bin\Debug\Infrastructure.dll
+E:\实验\Contactlist\ContactlistManage\Infrastructure\bin\Debug\Infrastructure.pdb
+E:\实验\Contactlist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.dll
+E:\实验\Contactlist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.pdb

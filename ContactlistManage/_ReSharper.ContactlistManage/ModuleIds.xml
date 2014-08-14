@@ -1,0 +1,8 @@
+<Modules>
+  <Module PersistentId="0DF96C63-B692-4679-82DB-5F5050664A9F" ModuleId="ContactlistManage" />
+  <Module PersistentId="37F6BFBF-F861-4B97-AEBF-53D52026528A" ModuleId="BLL" />
+  <Module PersistentId="A96E3304-5CA0-439B-8A6F-E0C6FF0BB964" ModuleId="Model" />
+  <Module PersistentId="DAFCD38F-41C9-4E4F-906F-CE43942AA4F9" ModuleId="DAL" />
+  <Module PersistentId="D270DF91-B4C0-4203-8062-82D38B5E074E" ModuleId="Infrastructure" />
+  <Module PersistentId="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6" ModuleId="ContactlistManage_1" />
+</Modules>
