@@ -6,30 +6,27 @@ using System.Text;
 
 namespace Infrastructure
 {
-    public class Enumeration
+    /// <summary>
+    /// 性别类型
+    /// </summary>
+    public enum SexType
     {
-        /// <summary>
-        /// 性别类型
-        /// </summary>
-        public enum SexType
-        {
-            [Description("无")]
-            None,
-            [Description("男")]
-            Man,
-            [Description("女")]
-            Lady
-        }
+        [Description("无")]
+        None,
+        [Description("男")]
+        Man,
+        [Description("女")]
+        Lady
+    }
 
-        /// <summary>
-        /// 用户类型
-        /// </summary>
-        public enum UserType
-        {
-            [Description("普通用户")]
-            Normal,
-            [Description("管理员")]
-            Manage
-        }
+    /// <summary>
+    /// 用户类型
+    /// </summary>
+    public enum UserType
+    {
+        [Description("普通用户")]
+        Normal,
+        [Description("管理员")]
+        Manage
     }
 }

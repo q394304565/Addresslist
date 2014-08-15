@@ -104,7 +104,7 @@
             this.txtAddress.Location = new System.Drawing.Point(43, 164);
             this.txtAddress.Multiline = true;
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(386, 21);
+            this.txtAddress.Size = new System.Drawing.Size(366, 21);
             this.txtAddress.TabIndex = 11;
             // 
             // label6
@@ -143,10 +143,11 @@
             // 
             // pbFavicon
             // 
+            this.pbFavicon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbFavicon.Image = ((System.Drawing.Image)(resources.GetObject("pbFavicon.Image")));
             this.pbFavicon.Location = new System.Drawing.Point(254, 3);
             this.pbFavicon.Name = "pbFavicon";
-            this.pbFavicon.Size = new System.Drawing.Size(175, 155);
+            this.pbFavicon.Size = new System.Drawing.Size(155, 155);
             this.pbFavicon.TabIndex = 15;
             this.pbFavicon.TabStop = false;
             // 
@@ -194,7 +195,7 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label1);
             this.Name = "UserInfo";
-            this.Size = new System.Drawing.Size(437, 190);
+            this.Size = new System.Drawing.Size(416, 190);
             ((System.ComponentModel.ISupportInitialize)(this.pbFavicon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

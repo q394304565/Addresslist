@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BLL;
+using Infrastructure;
 using Model;
 
 namespace ContactlistManage.GroupManage
@@ -22,13 +24,32 @@ namespace ContactlistManage.GroupManage
         private void ContactPersonOperate_Load(object sender, EventArgs e)
         {
             userInfo.TxtName.Text = ContactPerson.Name;
-            userInfo.TxtEmail.Text = ContactPerson.Name;
-            userInfo.TxtAddress.Text = ContactPerson.Name;
-            userInfo.TxtCallPhone.Text = ContactPerson.Name;
-            userInfo.TxtTelephone.Text = ContactPerson.Name;
-            userInfo.DtBirthday.Text = ContactPerson.Name;
-            userInfo.PbFavicon.Text = ContactPerson.Name;
-            userInfo.CbSex.Text = ContactPerson.Name;
+            userInfo.TxtEmail.Text = ContactPerson.Email;
+            userInfo.TxtAddress.Text = ContactPerson.Address;
+            userInfo.TxtCallPhone.Text = ContactPerson.Callphone;
+            userInfo.TxtTelephone.Text = ContactPerson.Telephone;
+            userInfo.DtBirthday.Text = string.IsNullOrEmpty(ContactPerson.Birthday) ? DateTime.Now.Date.ToShortDateString() : ContactPerson.Birthday;
+            if (ContactPerson.Favicon != null)
+            {
+                using (var myStream = new MemoryStream())
+                {
+                    foreach (byte a in ContactPerson.Favicon)
+                    {
+                        myStream.WriteByte(a);
+                    }
+                    var myImage = Image.FromStream(myStream);
+                    myStream.Close();
+                    userInfo.PbFavicon.Image = myImage;
+                }
+            }
+            userInfo.CbSex.SelectedValue = ContactPerson.Sex;
+            HandleData(() =>
+                {
+                    cbGroups.DataSource = BLLOperate.GetContactPersonGroupsByUId(GlobalData.Current.CurrentUser.Id);
+                    cbGroups.DisplayMember = "Name";
+                    cbGroups.ValueMember = "Id";
+                    cbGroups.SelectedValue = ContactPerson.UType;
+                });
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -40,7 +61,15 @@ namespace ContactlistManage.GroupManage
             HandleData(() =>
             {
                 ContactPerson.Name = userInfo.TxtName.Text;
-                ContactPerson.Id = BLLOperate.AddOrModifyItem<TB_ContactPersonGroup>(ContactPerson);
+                ContactPerson.Email = userInfo.TxtEmail.Text;
+                ContactPerson.Address = userInfo.TxtAddress.Text;
+                ContactPerson.Callphone = userInfo.TxtCallPhone.Text;
+                ContactPerson.Telephone = userInfo.TxtTelephone.Text;
+                ContactPerson.Birthday = userInfo.DtBirthday.Text;
+                ContactPerson.Sex = (int)userInfo.CbSex.SelectedValue;
+                ContactPerson.Favicon = userInfo.ImageData;
+                ContactPerson.UType = (int)cbGroups.SelectedValue;
+                ContactPerson.Id = BLLOperate.AddOrModifyItem<TB_ContactPerson>(ContactPerson);
                 DialogResult = DialogResult.OK;
                 Close();
             }, (s) =>

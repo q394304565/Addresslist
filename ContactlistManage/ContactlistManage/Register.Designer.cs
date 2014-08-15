@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();

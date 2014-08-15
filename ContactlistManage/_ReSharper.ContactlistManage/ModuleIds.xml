@@ -5,4 +5,5 @@
   <Module PersistentId="D270DF91-B4C0-4203-8062-82D38B5E074E" ModuleId="Infrastructure" />
   <Module PersistentId="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6" ModuleId="ContactlistManage_1" />
   <Module PersistentId="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System.Windows.Forms" />
+  <Module PersistentId="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" ModuleId="System.Windows.Forms_1" />
 </Modules>

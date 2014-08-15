@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>2.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,8 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BirthdayRemind.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BirthdayRemind.Designer.cs">
+      <DependentUpon>BirthdayRemind.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormBase.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GalleryManage\Gallery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GalleryManage\Gallery.Designer.cs">
+      <DependentUpon>Gallery.cs</DependentUpon>
     </Compile>
     <Compile Include="GroupManage\ContactPersonOperate.cs">
       <SubType>Form</SubType>
@@ -87,6 +102,33 @@
     <Compile Include="UserInfo.Designer.cs">
       <DependentUpon>UserInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserManage\ModifyPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserManage\ModifyPassword.Designer.cs">
+      <DependentUpon>ModifyPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserManage\UserInfoOperate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserManage\UserInfoOperate.Designer.cs">
+      <DependentUpon>UserInfoOperate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserManage\UsersOperate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserManage\UsersOperate.Designer.cs">
+      <DependentUpon>UsersOperate.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BirthdayRemind.resx">
+      <DependentUpon>BirthdayRemind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBase.resx">
+      <DependentUpon>FormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GalleryManage\Gallery.resx">
+      <DependentUpon>Gallery.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GroupManage\ContactPersonOperate.resx">
       <DependentUpon>ContactPersonOperate.cs</DependentUpon>
     </EmbeddedResource>
@@ -113,6 +155,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserInfo.resx">
       <DependentUpon>UserInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserManage\ModifyPassword.resx">
+      <DependentUpon>ModifyPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserManage\UserInfoOperate.resx">
+      <DependentUpon>UserInfoOperate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserManage\UsersOperate.resx">
+      <DependentUpon>UsersOperate.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="Properties\Settings.settings">
@@ -147,6 +198,10 @@
     <Resource Include="Images\UserIco.png" />
     <Resource Include="Images\UsersIco.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="2.ico" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

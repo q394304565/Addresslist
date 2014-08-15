@@ -47,8 +47,8 @@ namespace Model
         /// <summary>
         /// 电话
         /// </summary>	
-        [Column(Name = "TelePhone")]
-        public string TelePhone { get; set; }
+        [Column(Name = "Telephone")]
+        public string Telephone { get; set; }
         /// <summary>
         /// 邮箱
         /// </summary>	

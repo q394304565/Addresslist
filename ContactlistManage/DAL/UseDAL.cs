@@ -48,6 +48,27 @@ namespace DAL
         }
 
         /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="uId">用户编号</param>
+        /// <param name="password">新密码</param>
+        /// <returns></returns>
+        public bool ModifyPassword(int uId, string password)
+        {
+            using (var dc = new DataContext(DbHelper.Sqlconn()))
+            {
+                var user = dc.GetTable<TB_User>().FirstOrDefault(p => p.Id == uId && !p.Deleted);
+                if (user != null)
+                {
+                    user.Password = password;
+                }
+                dc.SubmitChanges();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 通过编号获取用户信息
         /// </summary>
         /// <param name="id">用户编号</param>

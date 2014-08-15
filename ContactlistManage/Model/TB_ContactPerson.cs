@@ -47,8 +47,8 @@ namespace Model
         /// <summary>
         /// 邮箱
         /// </summary>	
-        [Column(Name = "EMail")]
-        public string EMail { get; set; }
+        [Column(Name = "Email")]
+        public string Email { get; set; }
         /// <summary>
         /// 地址
         /// </summary>	

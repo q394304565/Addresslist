@@ -1,7 +1,7 @@
 /*==============================================================*/
 /* Database name:  CLM                                          */
 /* DBMS name:      Microsoft SQL Server 2005                    */
-/* Created on:     14-8-14 15:45:47                             */
+/* Created on:     14-8-15 19:34:41                             */
 /*==============================================================*/
 
 
@@ -28,9 +28,9 @@ create table TB_ContactPerson (
    Birthday             nvarchar(50)         null,
    Callphone            nvarchar(20)         null,
    Telephone            nvarchar(20)         null,
-   EMail                nvarchar(50)         null,
+   Email                nvarchar(50)         null,
    Address              nvarchar(100)        null,
-   Favicon              image                null,
+   Favicon              varbinary(Max)       null,
    UId                  int                  not null,
    Deleted              bit                  not null default 0,
    constraint PK_TB_CONTACTPERSON primary key (Id)
@@ -56,7 +56,7 @@ go
 create table TB_Gallery (
    Id                   int                  identity(1,1) not for replication,
    Name                 nvarchar(100)        not null,
-   GImage               image                not null,
+   GImage               varbinary(Max)       not null,
    UId                  int                  not null,
    Deleted              bit                  not null default 0,
    constraint PK_TB_GALLERY primary key (Id)
@@ -74,10 +74,10 @@ create table TB_User (
    Sex                  int                  null default 0,
    Birthday             nvarchar(50)         null,
    Callphone            nvarchar(20)         null,
-   TelePhone            nvarchar(20)         null,
+   Telephone            nvarchar(20)         null,
    Email                nvarchar(50)         null,
    Address              nvarchar(100)        null,
-   Favicon              image                null,
+   Favicon              varbinary(Max)       null,
    UType                int                  not null default 0,
    Deleted              bit                  not null default 0,
    constraint PK_TB_USER primary key (Id)

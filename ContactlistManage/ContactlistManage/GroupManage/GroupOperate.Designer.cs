@@ -115,6 +115,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GroupOperate";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "组操作";
             this.Load += new System.EventHandler(this.GroupOperate_Load);
             this.ResumeLayout(false);

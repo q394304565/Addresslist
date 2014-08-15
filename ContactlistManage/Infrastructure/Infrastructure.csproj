@@ -43,6 +43,7 @@
     <Compile Include="Enumeration.cs" />
     <Compile Include="GlobalData.cs" />
     <Compile Include="IBLL.cs" />
+    <Compile Include="Models.cs" />
     <Compile Include="ObjectEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

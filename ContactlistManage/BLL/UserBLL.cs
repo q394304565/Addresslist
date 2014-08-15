@@ -36,5 +36,16 @@ namespace BLL
         {
             return _dalOperate.CheckUserName(uName);
         }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="uId">用户编号</param>
+        /// <param name="password">新密码</param>
+        /// <returns></returns>
+        public bool ModifyPassword(int uId, string password)
+        {
+            return _dalOperate.ModifyPassword(uId,password);
+        }
     }
 }

@@ -46,9 +46,14 @@ namespace ContactlistManage
                 }
                 else
                 {
-                    MessageBox.Show(this, "登录失败，用户名或密码错误！");
+                    lbMessage.ForeColor = Color.Red;
+                    lbMessage.Text = "登录失败，用户名或密码错误";
                 }
-            }, s => MessageBox.Show(this, "登录失败,数据访问出错！"));
+            }, s =>
+                {
+                    lbMessage.ForeColor = Color.Red;
+                    lbMessage.Text = "登录失败，数据访问出错";
+                });
         }
 
         /// <summary>

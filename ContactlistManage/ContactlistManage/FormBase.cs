@@ -11,6 +11,7 @@ namespace ContactlistManage
 {
     public class FormBase : Form
     {
+        protected bool IsLoaded;
         protected BLLOperate BLLOperate { get { return GlobalData.Current.BllOperate<BLLOperate>(); } }
 
         /// <summary>
@@ -78,6 +79,10 @@ namespace ContactlistManage
             }
         }
 
-
+        public FormBase()
+        {
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(FormBase));
+            Icon = ((Icon)(resources.GetObject("$this.Icon")));
+        }
     }
 }

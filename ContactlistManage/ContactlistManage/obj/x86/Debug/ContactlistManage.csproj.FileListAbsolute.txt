@@ -38,3 +38,9 @@ E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\Contactl
 E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.GroupManage.GroupOperate.resources
 E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.g.resources
 E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.GroupManage.ContactPersonOperate.resources
+E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.FormBase.resources
+E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.GalleryManage.Gallery.resources
+E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.UserManage.UsersOperate.resources
+E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.BirthdayRemind.resources
+E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.UserManage.ModifyPassword.resources
+E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.UserManage.UserInfoOperate.resources

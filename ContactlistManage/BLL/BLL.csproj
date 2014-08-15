@@ -43,6 +43,7 @@
     <Compile Include="BLLOperate.cs" />
     <Compile Include="ContactPersonBLL.cs" />
     <Compile Include="ContactPersonGroupBLL.cs" />
+    <Compile Include="GalleryBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserBLL.cs" />
   </ItemGroup>
