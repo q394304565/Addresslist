@@ -14,15 +14,9 @@ namespace ContactlistManage.GalleryManage
 {
     public partial class Gallery : FormBase
     {
-        private List<TB_Gallery> _gallerys = new List<TB_Gallery>();
         public Gallery()
         {
             InitializeComponent();
-        }
-
-        public void HideMenu()
-        {
-            menuStrip1.Visible = false;
         }
 
         public TB_Gallery Photo { get { return listView1.SelectedItems.Count > 0 ? listView1.SelectedItems[0].Tag as TB_Gallery : null; } }
@@ -31,36 +25,8 @@ namespace ContactlistManage.GalleryManage
         {
             if (IsLoaded) return;
             IsLoaded = true;
-            HandleData(() =>
-            {
-                _gallerys = BLLOperate.GetGalleryByUId(GlobalData.Current.CurrentUser.Id);
-                var imageList = new ImageList()
-                {
-                    ImageSize = new Size(80, 80),
-                    ColorDepth = ColorDepth.Depth32Bit
-                };
-                listView1.BeginUpdate();
-                for (int i = 0; i < _gallerys.Count; i++)
-                {
-                    using (var myStream = new MemoryStream())
-                    {
-                        foreach (byte a in _gallerys[i].GImage)
-                        {
-                            myStream.WriteByte(a);
-                        }
-                        var myImage = Image.FromStream(myStream);
-                        Image.GetThumbnailImageAbort myCallback = ThumbnailCallback;
-                        imageList.Images.Add(myImage.GetThumbnailImage(80, 80, myCallback, IntPtr.Zero));
-                        myStream.Close();
-                    }
-                    listView1.Items.Add(_gallerys[i].Name, i).Tag = _gallerys[i];
-                }
-                listView1.LargeImageList = imageList;
-                listView1.EndUpdate();
-            }, s => MessageBox.Show(this, s));
+            GetGallery(listView1);
         }
-
-        public bool ThumbnailCallback() { return false; }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -93,7 +59,7 @@ namespace ContactlistManage.GalleryManage
                             var photo = new TB_Gallery()
                             {
                                 UId = GlobalData.Current.CurrentUser.Id,
-                                Name = Path.GetFileNameWithoutExtension(fileName),
+                                Name = Path.GetFileName(fileName),
                                 GImage = image
                             };
                             BLLOperate.AddOrModifyItem<TB_Gallery>(photo);

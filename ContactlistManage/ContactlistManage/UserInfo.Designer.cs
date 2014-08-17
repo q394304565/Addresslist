@@ -158,14 +158,16 @@
             this.txtTelephone.Name = "txtTelephone";
             this.txtTelephone.Size = new System.Drawing.Size(205, 21);
             this.txtTelephone.TabIndex = 16;
+            this.txtTelephone.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
             // txtCallPhone
             // 
             this.txtCallPhone.Location = new System.Drawing.Point(43, 109);
-            this.txtCallPhone.Mask = "000-0000-0000";
+            this.txtCallPhone.Mask = "000-00000000";
             this.txtCallPhone.Name = "txtCallPhone";
             this.txtCallPhone.Size = new System.Drawing.Size(205, 21);
             this.txtCallPhone.TabIndex = 17;
+            this.txtCallPhone.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
             // txtEmail
             // 

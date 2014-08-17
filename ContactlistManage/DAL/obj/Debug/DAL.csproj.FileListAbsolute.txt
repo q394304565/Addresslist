@@ -16,3 +16,12 @@ E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\Model.pdb
 E:\实验\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 E:\实验\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.dll
 E:\实验\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.pdb
+F:\work\Addresslist\ContactlistManage\DAL\bin\Debug\DAL.dll
+F:\work\Addresslist\ContactlistManage\DAL\bin\Debug\DAL.pdb
+F:\work\Addresslist\ContactlistManage\DAL\bin\Debug\Infrastructure.dll
+F:\work\Addresslist\ContactlistManage\DAL\bin\Debug\Model.dll
+F:\work\Addresslist\ContactlistManage\DAL\bin\Debug\Infrastructure.pdb
+F:\work\Addresslist\ContactlistManage\DAL\bin\Debug\Model.pdb
+F:\work\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+F:\work\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.dll
+F:\work\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.pdb

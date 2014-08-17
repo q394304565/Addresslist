@@ -45,6 +45,12 @@ namespace ContactlistManage
                         ForeachTreeNode(treeNode, source.Id);
                     }
                     tvItems.ExpandAll();
+                    var birthdayContents = CheckBirthdays();
+                    if (birthdayContents.Count > 0)
+                    {
+                        var remind = new BirthdayRemind { BirthdayContents = birthdayContents };
+                        remind.Show(this);
+                    }
                 });
         }
 
@@ -66,6 +72,41 @@ namespace ContactlistManage
                     pbImage.Image = myImage;
                 }
             }
+        }
+
+        /// <summary>
+        /// 检查联系人生日
+        /// </summary>
+        /// <returns></returns>
+        private List<BirthdayContent> CheckBirthdays()
+        {
+            var birthdayContents = new List<BirthdayContent>();
+            foreach (var birthday in _contactPersons)
+            {
+                if (string.IsNullOrEmpty(birthday.Birthday)) continue;
+                var date = Convert.ToDateTime(birthday.Birthday);
+                var noewBirthday = Convert.ToDateTime(DateTime.Now.Year + "-" + date.Month + "-" + date.Day);
+                var days = noewBirthday.Subtract(DateTime.Now.Date).TotalDays;
+                if (days <= 1 && days > 0)
+                {
+                    birthdayContents.Add(new BirthdayContent
+                    {
+                        Guid = Guid.NewGuid(),
+                        Birthday = date.Month + "-" + date.Day,
+                        Content = string.Format("明日{0}为{1}的生日，别忘了送上生日祝福！", date.Month + "-" + date.Day, birthday.Name)
+                    });
+                }
+                else if (days <= 0 && days > -1)
+                {
+                    birthdayContents.Add(new BirthdayContent
+                    {
+                        Guid = Guid.NewGuid(),
+                        Birthday = date.Month + "-" + date.Day,
+                        Content = string.Format("今天{0}为{1}的生日，别忘了送上生日祝福！", date.Month + "-" + date.Day, birthday.Name)
+                    });
+                }
+            }
+            return birthdayContents;
         }
 
         /// <summary>
@@ -133,11 +174,13 @@ namespace ContactlistManage
         {
             var menuItem = sender as MenuItem;
             int uType = 0;
+            bool isGroup=false;
             if (tvItems.SelectedNode != null)
             {
                 var contactPersonGroup = tvItems.SelectedNode.Tag as TB_ContactPersonGroup;
                 if (contactPersonGroup != null)
                 {
+                    isGroup = true;
                     uType = contactPersonGroup.Id;
                 }
                 else
@@ -159,10 +202,17 @@ namespace ContactlistManage
                 };
                 if (g.ShowDialog(this) == DialogResult.OK)
                 {
-                    if (tvItems.SelectedNode == null || tvItems.SelectedNode.Parent == null)
-                        tvItems.Nodes.Add(CreateTreeNode(g.ContactPerson));
-                    else
-                        tvItems.SelectedNode.Parent.Nodes.Add(CreateTreeNode(g.ContactPerson));
+                    if (tvItems.SelectedNode != null)
+                    {
+                        if (isGroup)
+                        {
+                            tvItems.SelectedNode.Nodes.Add(CreateTreeNode(g.ContactPerson));
+                        }
+                        else
+                        {
+                            tvItems.SelectedNode.Parent.Nodes.Add(CreateTreeNode(g.ContactPerson));
+                        }
+                    }
                 }
             }
         }

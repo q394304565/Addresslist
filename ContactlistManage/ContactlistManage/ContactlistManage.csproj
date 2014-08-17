@@ -64,6 +64,12 @@
     <Compile Include="GalleryManage\Gallery.Designer.cs">
       <DependentUpon>Gallery.cs</DependentUpon>
     </Compile>
+    <Compile Include="GalleryManage\SelectPhoto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GalleryManage\SelectPhoto.Designer.cs">
+      <DependentUpon>SelectPhoto.cs</DependentUpon>
+    </Compile>
     <Compile Include="GroupManage\ContactPersonOperate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GalleryManage\Gallery.resx">
       <DependentUpon>Gallery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GalleryManage\SelectPhoto.resx">
+      <DependentUpon>SelectPhoto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GroupManage\ContactPersonOperate.resx">
       <DependentUpon>ContactPersonOperate.cs</DependentUpon>

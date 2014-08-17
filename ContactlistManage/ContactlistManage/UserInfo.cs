@@ -44,7 +44,7 @@ namespace ContactlistManage
         private void AddLocalPhoto(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 var fileName = openFileDialog.FileName;
                 using (var fs = new FileStream(fileName, FileMode.Open))
@@ -73,22 +73,18 @@ namespace ContactlistManage
         /// <param name="e"></param>
         private void AddGalleryPhoto(object sender, EventArgs e)
         {
-            var g = new Gallery();
-            g.HideMenu();
-            g.ShowDialog(this);
-            if (g.Photo != null)
+            var g = new SelectPhoto();
+            if (g.ShowDialog(this) != DialogResult.OK || g.Photo == null) return;
+            ImageData = g.Photo.GImage;
+            using (var myStream = new MemoryStream())
             {
-                ImageData = g.Photo.GImage;
-                using (var myStream = new MemoryStream())
+                foreach (byte a in g.Photo.GImage)
                 {
-                    foreach (byte a in g.Photo.GImage)
-                    {
-                        myStream.WriteByte(a);
-                    }
-                    var myImage = Image.FromStream(myStream);
-                    myStream.Close();
-                    pbFavicon.Image = myImage;
+                    myStream.WriteByte(a);
                 }
+                var myImage = Image.FromStream(myStream);
+                myStream.Close();
+                pbFavicon.Image = myImage;
             }
         }
 

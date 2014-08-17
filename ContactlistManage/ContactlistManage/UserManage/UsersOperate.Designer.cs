@@ -31,8 +31,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.UName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sex = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Birthday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CallPhone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TelePhone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,8 +52,8 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.UName,
             this.LName,
-            this.Sex,
             this.Birthday,
+            this.Sex,
             this.CallPhone,
             this.TelePhone,
             this.Email,
@@ -63,63 +63,76 @@
             this.DeleteUser});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(728, 406);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             // 
             // UName
             // 
+            this.UName.DataPropertyName = "Name";
             this.UName.HeaderText = "姓名";
             this.UName.Name = "UName";
             this.UName.ReadOnly = true;
             // 
             // LName
             // 
+            this.LName.DataPropertyName = "UName";
             this.LName.HeaderText = "用户名";
             this.LName.Name = "LName";
             this.LName.ReadOnly = true;
             // 
-            // Sex
-            // 
-            this.Sex.HeaderText = "性别";
-            this.Sex.Name = "Sex";
-            this.Sex.ReadOnly = true;
-            // 
             // Birthday
             // 
+            this.Birthday.DataPropertyName = "Birthday";
             this.Birthday.HeaderText = "生日";
             this.Birthday.Name = "Birthday";
             this.Birthday.ReadOnly = true;
             // 
+            // Sex
+            // 
+            this.Sex.DataPropertyName = "Sex";
+            this.Sex.HeaderText = "性别";
+            this.Sex.Name = "Sex";
+            this.Sex.ReadOnly = true;
+            // 
             // CallPhone
             // 
+            this.CallPhone.DataPropertyName = "CallPhone";
             this.CallPhone.HeaderText = "手机";
             this.CallPhone.Name = "CallPhone";
             this.CallPhone.ReadOnly = true;
             // 
             // TelePhone
             // 
+            this.TelePhone.DataPropertyName = "TelePhone";
             this.TelePhone.HeaderText = "电话";
             this.TelePhone.Name = "TelePhone";
             this.TelePhone.ReadOnly = true;
             // 
             // Email
             // 
+            this.Email.DataPropertyName = "Email";
             this.Email.HeaderText = "邮箱";
             this.Email.Name = "Email";
             this.Email.ReadOnly = true;
             // 
             // Adress
             // 
+            this.Adress.DataPropertyName = "Adress";
             this.Adress.HeaderText = "地址";
             this.Adress.Name = "Adress";
             this.Adress.ReadOnly = true;
             // 
             // Favicon
             // 
+            this.Favicon.DataPropertyName = "Favicon";
             this.Favicon.HeaderText = "头像";
+            this.Favicon.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
             this.Favicon.Name = "Favicon";
             this.Favicon.ReadOnly = true;
             // 
@@ -128,12 +141,16 @@
             this.ResetPassword.HeaderText = "重置密码";
             this.ResetPassword.Name = "ResetPassword";
             this.ResetPassword.ReadOnly = true;
+            this.ResetPassword.Text = "重置密码";
+            this.ResetPassword.UseColumnTextForButtonValue = true;
             // 
             // DeleteUser
             // 
             this.DeleteUser.HeaderText = "删除用户";
             this.DeleteUser.Name = "DeleteUser";
             this.DeleteUser.ReadOnly = true;
+            this.DeleteUser.Text = "删除用户";
+            this.DeleteUser.UseColumnTextForButtonValue = true;
             // 
             // UsersOperate
             // 
@@ -143,6 +160,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "UsersOperate";
             this.Text = "用户管理";
+            this.Load += new System.EventHandler(this.UsersOperate_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -153,8 +171,8 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn UName;
         private System.Windows.Forms.DataGridViewTextBoxColumn LName;
-        private System.Windows.Forms.DataGridViewComboBoxColumn Sex;
         private System.Windows.Forms.DataGridViewTextBoxColumn Birthday;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Sex;
         private System.Windows.Forms.DataGridViewTextBoxColumn CallPhone;
         private System.Windows.Forms.DataGridViewTextBoxColumn TelePhone;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;

@@ -54,7 +54,13 @@ namespace ContactlistManage.GroupManage
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (VerifyRequired(userInfo.TxtName, lbMessage, "名称"))
+            if (VerifyRequired(userInfo.TxtName, lbMessage, "名称")
+                || VerifyStringLength(userInfo.TxtName, 20, lbMessage, "名称")
+                || VerifyStringLength(userInfo.TxtEmail, 40, lbMessage, "邮箱")
+                || VerifyStringLength(userInfo.TxtAddress, 80, lbMessage, "地址")
+                || VerifyCallPhone(userInfo.TxtCallPhone, lbMessage, "手机")
+                || VerifyTelePhone(userInfo.TxtTelephone, lbMessage, "电话")
+                || VerifyEmail(userInfo.TxtEmail, lbMessage, "邮箱"))
             {
                 return;
             }

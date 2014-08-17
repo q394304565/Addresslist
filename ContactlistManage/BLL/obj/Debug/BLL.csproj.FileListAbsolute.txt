@@ -20,3 +20,14 @@ E:\实验\Addresslist\ContactlistManage\BLL\bin\Debug\Infrastructure.pdb
 E:\实验\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 E:\实验\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.dll
 E:\实验\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.pdb
+F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\BLL.dll
+F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\BLL.pdb
+F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\DAL.dll
+F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\Infrastructure.dll
+F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\Model.dll
+F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\DAL.pdb
+F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\Infrastructure.pdb
+F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\Model.pdb
+F:\work\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+F:\work\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.dll
+F:\work\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.pdb
