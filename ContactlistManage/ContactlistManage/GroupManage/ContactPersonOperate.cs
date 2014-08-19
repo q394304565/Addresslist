@@ -64,6 +64,12 @@ namespace ContactlistManage.GroupManage
             {
                 return;
             }
+            if (BLLOperate.IsExistContactPersonName(ContactPerson.Id, GlobalData.Current.CurrentUser.Id, userInfo.TxtName.Text))
+            {
+                lbMessage.ForeColor = Color.Red;
+                lbMessage.Text = "该联系人已存在";
+                return;
+            }
             HandleData(() =>
             {
                 ContactPerson.Name = userInfo.TxtName.Text;

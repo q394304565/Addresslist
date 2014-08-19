@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Linq;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using Model;
@@ -17,9 +18,15 @@ namespace DAL
         /// <returns></returns>
         public TB_User UserLogin(string uName, string password)
         {
-            using (var dc = new DataContext(DbHelper.Sqlconn()))
+            using (var sqlcon = new SqlConnection(DbHelper.StrSql))
             {
-                return dc.GetTable<TB_User>().FirstOrDefault(p => p.UName == uName.ToLower() && p.Password == password && !p.Deleted);
+                sqlcon.Open();
+                using (var dc = new DataContext(sqlcon))
+                {
+                    return
+                        dc.GetTable<TB_User>().FirstOrDefault(
+                            p => p.UName == uName.ToLower() && p.Password == password && !p.Deleted);
+                }
             }
         }
 
@@ -30,9 +37,13 @@ namespace DAL
         /// <returns></returns>
         public bool CheckUserName(string uName)
         {
-            using (var dc = new DataContext(DbHelper.Sqlconn()))
+            using (var sqlcon = new SqlConnection(DbHelper.StrSql))
             {
-                return dc.GetTable<TB_User>().Any(p => p.UName == uName.ToLower() && !p.Deleted);
+                sqlcon.Open();
+                using (var dc = new DataContext(sqlcon))
+                {
+                    return dc.GetTable<TB_User>().Any(p => p.UName == uName.ToLower() && !p.Deleted);
+                }
             }
         }
 
@@ -55,15 +66,19 @@ namespace DAL
         /// <returns></returns>
         public bool ModifyPassword(int uId, string password)
         {
-            using (var dc = new DataContext(DbHelper.Sqlconn()))
+            using (var sqlcon = new SqlConnection(DbHelper.StrSql))
             {
-                var user = dc.GetTable<TB_User>().FirstOrDefault(p => p.Id == uId && !p.Deleted);
-                if (user != null)
+                sqlcon.Open();
+                using (var dc = new DataContext(sqlcon))
                 {
-                    user.Password = password;
+                    var user = dc.GetTable<TB_User>().FirstOrDefault(p => p.Id == uId && !p.Deleted);
+                    if (user != null)
+                    {
+                        user.Password = password;
+                    }
+                    dc.SubmitChanges();
+                    return true;
                 }
-                dc.SubmitChanges();
-                return true;
             }
             return false;
         }
@@ -75,9 +90,13 @@ namespace DAL
         /// <returns></returns>
         public TB_User GetUserById(int id)
         {
-            using (var dc = new DataContext(DbHelper.Sqlconn()))
+            using (var sqlcon = new SqlConnection(DbHelper.StrSql))
             {
-                return dc.GetTable<TB_User>().FirstOrDefault(p => p.Id == id && !p.Deleted);
+                sqlcon.Open();
+                using (var dc = new DataContext(sqlcon))
+                {
+                    return dc.GetTable<TB_User>().FirstOrDefault(p => p.Id == id && !p.Deleted);
+                }
             }
         }
     }

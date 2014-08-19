@@ -14,5 +14,17 @@ namespace BLL
         {
             return _dalOperate.GetContactPersonsByUId(uId);
         }
+
+        /// <summary>
+        /// 是否已存在联系人
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name">联系人名称</param>
+        /// <param name="uId">所属用户编号</param>
+        /// <returns></returns>
+        public bool IsExistContactPersonName(int id, int uId, string name)
+        {
+            return _dalOperate.IsExistContactPersonName(id, uId, name);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Infrastructure;
 using Model;
 
 namespace ContactlistManage.GroupManage
@@ -29,6 +30,12 @@ namespace ContactlistManage.GroupManage
         {
             if (VerifyRequired(txtName, lbMessage, "名称"))
             {
+                return;
+            }
+            if (BLLOperate.IsExistContactPersonGroupName(ContactPersonGroup.Id, GlobalData.Current.CurrentUser.Id, txtName.Text))
+            {
+                lbMessage.ForeColor = Color.Red;
+                lbMessage.Text = "该联系人组已存在";
                 return;
             }
             HandleData(() =>

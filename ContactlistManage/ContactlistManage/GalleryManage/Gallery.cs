@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Infrastructure;
 using Model;
@@ -48,6 +43,11 @@ namespace ContactlistManage.GalleryManage
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 var fileName = openFileDialog.FileName;
+                if (BLLOperate.IsExistGalleryName(0, GlobalData.Current.CurrentUser.Id, Path.GetFileName(fileName)))
+                {
+                    MessageBox.Show(this, "该照片已存在！");
+                    return;
+                }
                 using (var fs = new FileStream(fileName, FileMode.Open))
                 {
                     var image = new byte[fs.Length];
