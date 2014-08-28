@@ -28,18 +28,73 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
+            this.btnCheckUserName = new System.Windows.Forms.Button();
+            this.lbMessage = new System.Windows.Forms.Label();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnRegister = new System.Windows.Forms.Button();
+            this.txtAffirmPassword = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtUName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtAffirmPassword = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnRegister = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.lbMessage = new System.Windows.Forms.Label();
-            this.btnCheckUserName = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // btnCheckUserName
+            // 
+            this.btnCheckUserName.Location = new System.Drawing.Point(229, 10);
+            this.btnCheckUserName.Name = "btnCheckUserName";
+            this.btnCheckUserName.Size = new System.Drawing.Size(75, 23);
+            this.btnCheckUserName.TabIndex = 13;
+            this.btnCheckUserName.Text = "检查用户名";
+            this.btnCheckUserName.UseVisualStyleBackColor = true;
+            this.btnCheckUserName.Click += new System.EventHandler(this.btnCheckUserName_Click);
+            // 
+            // lbMessage
+            // 
+            this.lbMessage.AutoSize = true;
+            this.lbMessage.ForeColor = System.Drawing.Color.Red;
+            this.lbMessage.Location = new System.Drawing.Point(37, 101);
+            this.lbMessage.Name = "lbMessage";
+            this.lbMessage.Size = new System.Drawing.Size(0, 12);
+            this.lbMessage.TabIndex = 12;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(161, 124);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 11;
+            this.btnCancel.Text = "取消";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnRegister
+            // 
+            this.btnRegister.Location = new System.Drawing.Point(71, 124);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(75, 23);
+            this.btnRegister.TabIndex = 10;
+            this.btnRegister.Text = "注册";
+            this.btnRegister.UseVisualStyleBackColor = true;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            // 
+            // txtAffirmPassword
+            // 
+            this.txtAffirmPassword.Location = new System.Drawing.Point(71, 66);
+            this.txtAffirmPassword.Name = "txtAffirmPassword";
+            this.txtAffirmPassword.PasswordChar = '*';
+            this.txtAffirmPassword.Size = new System.Drawing.Size(152, 21);
+            this.txtAffirmPassword.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 75);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "确认密码";
             // 
             // txtPassword
             // 
@@ -74,62 +129,6 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "用户名";
             // 
-            // txtAffirmPassword
-            // 
-            this.txtAffirmPassword.Location = new System.Drawing.Point(71, 66);
-            this.txtAffirmPassword.Name = "txtAffirmPassword";
-            this.txtAffirmPassword.PasswordChar = '*';
-            this.txtAffirmPassword.Size = new System.Drawing.Size(152, 21);
-            this.txtAffirmPassword.TabIndex = 9;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 75);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 12);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "确认密码";
-            // 
-            // btnRegister
-            // 
-            this.btnRegister.Location = new System.Drawing.Point(27, 123);
-            this.btnRegister.Name = "btnRegister";
-            this.btnRegister.Size = new System.Drawing.Size(75, 23);
-            this.btnRegister.TabIndex = 10;
-            this.btnRegister.Text = "注册";
-            this.btnRegister.UseVisualStyleBackColor = true;
-            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(127, 123);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 11;
-            this.btnCancel.Text = "取消";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // lbMessage
-            // 
-            this.lbMessage.AutoSize = true;
-            this.lbMessage.ForeColor = System.Drawing.Color.Red;
-            this.lbMessage.Location = new System.Drawing.Point(37, 101);
-            this.lbMessage.Name = "lbMessage";
-            this.lbMessage.Size = new System.Drawing.Size(0, 12);
-            this.lbMessage.TabIndex = 12;
-            // 
-            // btnCheckUserName
-            // 
-            this.btnCheckUserName.Location = new System.Drawing.Point(229, 10);
-            this.btnCheckUserName.Name = "btnCheckUserName";
-            this.btnCheckUserName.Size = new System.Drawing.Size(75, 23);
-            this.btnCheckUserName.TabIndex = 13;
-            this.btnCheckUserName.Text = "检查用户名";
-            this.btnCheckUserName.UseVisualStyleBackColor = true;
-            this.btnCheckUserName.Click += new System.EventHandler(this.btnCheckUserName_Click);
-            // 
             // Register
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -146,6 +145,7 @@
             this.Controls.Add(this.txtUName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Register";

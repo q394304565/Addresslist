@@ -74,3 +74,5 @@ F:\work\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\Contactlis
 F:\work\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.UserManage.UsersOperate.resources
 F:\work\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.csproj.GenerateResource.Cache
 F:\work\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.GalleryManage.SelectPhoto.resources
+E:\实验\Addresslist\ContactlistManage\ContactlistManage\obj\x86\Debug\ContactlistManage.GalleryManage.SelectPhoto.resources
+E:\实验\Addresslist\ContactlistManage\ContactlistManage\bin\Debug\System.Data.SQLite.dll

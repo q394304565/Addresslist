@@ -112,6 +112,7 @@
             this.Controls.Add(this.lbName);
             this.Controls.Add(this.lbParentName);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "GroupOperate";

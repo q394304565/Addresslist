@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Infrastructure;
 
@@ -64,6 +59,18 @@ namespace ContactlistManage
                 btnNext.Enabled = false;
             }
             label1.Text = BirthdayContents[_currentIndex].Content;
+        }
+
+        private void BirthdayRemind_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show(this, "关闭后今日不再提醒！", "关闭提醒", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            {
+                GlobalData.Current.UserConfig.IsNotRemind = true;
+            }
+            else
+            {
+                GlobalData.Current.UserConfig.IsNotRemind = false;
+            }
         }
     }
 }

@@ -37,6 +37,9 @@
             // 
             // listView1
             // 
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView1.Location = new System.Drawing.Point(0, 28);
             this.listView1.Name = "listView1";
@@ -66,10 +69,10 @@
             // 
             // MIDeletePhoto
             // 
-            this.MIDeletePhoto.Enabled = false;
             this.MIDeletePhoto.Name = "MIDeletePhoto";
             this.MIDeletePhoto.Size = new System.Drawing.Size(68, 21);
             this.MIDeletePhoto.Text = "删除照片";
+            this.MIDeletePhoto.Visible = false;
             this.MIDeletePhoto.Click += new System.EventHandler(this.MIDeletePhoto_Click);
             // 
             // Gallery

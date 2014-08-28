@@ -31,3 +31,5 @@ F:\work\Addresslist\ContactlistManage\BLL\bin\Debug\Model.pdb
 F:\work\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 F:\work\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.dll
 F:\work\Addresslist\ContactlistManage\BLL\obj\Debug\BLL.pdb
+E:\实验\Addresslist\ContactlistManage\BLL\bin\Debug\IrisSkin2.dll
+E:\实验\Addresslist\ContactlistManage\BLL\bin\Debug\System.Data.SQLite.dll

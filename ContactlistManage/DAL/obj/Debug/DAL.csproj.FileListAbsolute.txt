@@ -25,3 +25,5 @@ F:\work\Addresslist\ContactlistManage\DAL\bin\Debug\Model.pdb
 F:\work\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 F:\work\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.dll
 F:\work\Addresslist\ContactlistManage\DAL\obj\Debug\DAL.pdb
+E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\IrisSkin2.dll
+E:\实验\Addresslist\ContactlistManage\DAL\bin\Debug\System.Data.SQLite.dll

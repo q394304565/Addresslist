@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Infrastructure;
 
 namespace ContactlistManage
 {
@@ -15,6 +16,7 @@ namespace ContactlistManage
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            SQLiteOperate.CreateDB();
             Application.Run(new Login());
         }
     }

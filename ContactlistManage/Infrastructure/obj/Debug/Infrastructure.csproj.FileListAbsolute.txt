@@ -16,3 +16,5 @@ F:\work\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Model.pdb
 F:\work\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.csprojResolveAssemblyReference.cache
 F:\work\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.dll
 F:\work\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.pdb
+E:\实验\Addresslist\ContactlistManage\Infrastructure\bin\Debug\IrisSkin2.DLL
+E:\实验\Addresslist\ContactlistManage\Infrastructure\bin\Debug\System.Data.SQLite.dll

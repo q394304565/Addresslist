@@ -43,6 +43,7 @@
             this.MIGalleryManage = new System.Windows.Forms.ToolStripMenuItem();
             this.MIModifyPassword = new System.Windows.Forms.ToolStripMenuItem();
             this.MILogout = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbSkin = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -123,7 +124,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.menuStrip1.Size = new System.Drawing.Size(173, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(876, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -166,12 +167,22 @@
             this.MILogout.Text = "注销";
             this.MILogout.Click += new System.EventHandler(this.MILogout_Click);
             // 
+            // cbSkin
+            // 
+            this.cbSkin.DisplayMember = "Name";
+            this.cbSkin.FormattingEnabled = true;
+            this.cbSkin.Location = new System.Drawing.Point(755, 0);
+            this.cbSkin.Name = "cbSkin";
+            this.cbSkin.Size = new System.Drawing.Size(121, 20);
+            this.cbSkin.TabIndex = 9;
+            this.cbSkin.SelectedIndexChanged += new System.EventHandler(this.cbSkin_SelectedIndexChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(173, 605);
+            this.ClientSize = new System.Drawing.Size(876, 607);
+            this.Controls.Add(this.cbSkin);
             this.Controls.Add(this.btnModifyUserInfo);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -180,8 +191,6 @@
             this.Controls.Add(this.tvItems);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "通讯录管理";
@@ -210,5 +219,6 @@
         private System.Windows.Forms.ToolStripMenuItem MIGalleryManage;
         private System.Windows.Forms.Button btnModifyUserInfo;
         private System.Windows.Forms.ToolStripMenuItem MIModifyPassword;
+        private System.Windows.Forms.ComboBox cbSkin;
     }
 }

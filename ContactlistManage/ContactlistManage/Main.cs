@@ -29,11 +29,9 @@ namespace ContactlistManage
                 MIUserManage.Visible = false;
         }
 
-        private bool _isLoaded = false;
         private void Main_Load(object sender, EventArgs e)
         {
-            if (_isLoaded) return;
-            _isLoaded = true;
+            if (IsLoaded) return;
             SetUserInfo();
             LoadData(() =>
                 {
@@ -45,13 +43,31 @@ namespace ContactlistManage
                         ForeachTreeNode(treeNode, source.Id);
                     }
                     tvItems.ExpandAll();
-                    var birthdayContents = CheckBirthdays();
-                    if (birthdayContents.Count > 0)
+                    if (!GlobalData.Current.UserConfig.IsNotRemind)
                     {
-                        var remind = new BirthdayRemind { BirthdayContents = birthdayContents };
-                        remind.Show(this);
+                        var birthdayContents = CheckBirthdays();
+                        if (birthdayContents.Count > 0)
+                        {
+                            var remind = new BirthdayRemind { BirthdayContents = birthdayContents };
+                            remind.Show(this);
+                        }
                     }
                 });
+            cbSkin.DataSource = GlobalData.Current.SkinList;
+            IsLoaded = true;
+            cbSkin.SelectedItem = null;
+            if (!string.IsNullOrEmpty(GlobalData.Current.UserConfig.SkinName))
+            {
+                var skin = GlobalData.Current.SkinList.FindIndex(p => p.Name == GlobalData.Current.UserConfig.SkinName);
+                if (skin >= 0)
+                {
+                    cbSkin.SelectedIndex = skin;
+                }
+            }
+            else
+            {
+                cbSkin.SelectedIndex = 0;
+            }
         }
 
         private void SetUserInfo()
@@ -174,7 +190,7 @@ namespace ContactlistManage
         {
             var menuItem = sender as MenuItem;
             int uType = 0;
-            bool isGroup=false;
+            bool isGroup = false;
             if (tvItems.SelectedNode != null)
             {
                 var contactPersonGroup = tvItems.SelectedNode.Tag as TB_ContactPersonGroup;
@@ -531,6 +547,15 @@ namespace ContactlistManage
             {
                 SetUserInfo();
             }
+        }
+
+        private void cbSkin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var fileInfo = cbSkin.SelectedItem as FileInformation;
+            if (fileInfo == null || !IsLoaded) return;
+            GlobalData.Current.UserConfig.SkinName = fileInfo.Name;
+            SQLiteOperate.ModifyUserConfig(GlobalData.Current.UserConfig);
+            GlobalData.Current.SkinEngine.SkinFile = fileInfo.FilePath;
         }
     }
 }
