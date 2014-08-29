@@ -79,7 +79,7 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(60, 228);
+            this.btnLogin.Location = new System.Drawing.Point(74, 228);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 4;
@@ -89,7 +89,7 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.Location = new System.Drawing.Point(160, 228);
+            this.btnRegister.Location = new System.Drawing.Point(174, 228);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(75, 23);
             this.btnRegister.TabIndex = 5;
@@ -114,7 +114,7 @@
             // cbRemindName
             // 
             this.cbRemindName.AutoSize = true;
-            this.cbRemindName.Location = new System.Drawing.Point(60, 196);
+            this.cbRemindName.Location = new System.Drawing.Point(74, 196);
             this.cbRemindName.Name = "cbRemindName";
             this.cbRemindName.Size = new System.Drawing.Size(84, 16);
             this.cbRemindName.TabIndex = 14;
@@ -124,7 +124,7 @@
             // cbRemindPassword
             // 
             this.cbRemindPassword.AutoSize = true;
-            this.cbRemindPassword.Location = new System.Drawing.Point(160, 196);
+            this.cbRemindPassword.Location = new System.Drawing.Point(174, 196);
             this.cbRemindPassword.Name = "cbRemindPassword";
             this.cbRemindPassword.Size = new System.Drawing.Size(72, 16);
             this.cbRemindPassword.TabIndex = 15;

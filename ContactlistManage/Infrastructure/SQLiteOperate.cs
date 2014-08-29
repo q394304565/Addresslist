@@ -10,7 +10,7 @@ namespace Infrastructure
         public const string ConnectionString = "data source=.\\Config.db";
         public static void CreateDB()
         {
-            if (!File.Exists(Assembly.GetEntryAssembly().Location + ".\\Config.db"))
+            if (!File.Exists(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + ".\\Config.db"))
             {
                 using (var sqlConn = new SQLiteConnection(ConnectionString))
                 {

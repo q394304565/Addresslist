@@ -36,7 +36,7 @@
             this.CallPhone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TelePhone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Adress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Favicon = new System.Windows.Forms.DataGridViewImageColumn();
             this.ResetPassword = new System.Windows.Forms.DataGridViewButtonColumn();
             this.DeleteUser = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -60,7 +60,7 @@
             this.CallPhone,
             this.TelePhone,
             this.Email,
-            this.Adress,
+            this.Address,
             this.Favicon,
             this.ResetPassword,
             this.DeleteUser});
@@ -123,12 +123,12 @@
             this.Email.Name = "Email";
             this.Email.ReadOnly = true;
             // 
-            // Adress
+            // Address
             // 
-            this.Adress.DataPropertyName = "Adress";
-            this.Adress.HeaderText = "地址";
-            this.Adress.Name = "Adress";
-            this.Adress.ReadOnly = true;
+            this.Address.DataPropertyName = "Address";
+            this.Address.HeaderText = "地址";
+            this.Address.Name = "Address";
+            this.Address.ReadOnly = true;
             // 
             // Favicon
             // 
@@ -178,7 +178,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CallPhone;
         private System.Windows.Forms.DataGridViewTextBoxColumn TelePhone;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Adress;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Address;
         private System.Windows.Forms.DataGridViewImageColumn Favicon;
         private System.Windows.Forms.DataGridViewButtonColumn ResetPassword;
         private System.Windows.Forms.DataGridViewButtonColumn DeleteUser;

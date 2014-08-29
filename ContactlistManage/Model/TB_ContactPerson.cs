@@ -8,7 +8,6 @@ namespace Model
     [Table(Name = "TB_ContactPerson")]
     public class TB_ContactPerson : IModel
     {
-
         /// <summary>
         /// 编号
         /// </summary>	

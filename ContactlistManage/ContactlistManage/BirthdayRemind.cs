@@ -63,6 +63,11 @@ namespace ContactlistManage
 
         private void BirthdayRemind_FormClosing(object sender, FormClosingEventArgs e)
         {
+            CloseRemind();
+        }
+
+        private void CloseRemind()
+        {
             if (MessageBox.Show(this, "关闭后今日不再提醒！", "关闭提醒", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
                 GlobalData.Current.UserConfig.IsNotRemind = true;
@@ -71,6 +76,11 @@ namespace ContactlistManage
             {
                 GlobalData.Current.UserConfig.IsNotRemind = false;
             }
+        }
+
+        private void btnKnow_Click(object sender, EventArgs e)
+        {
+            CloseRemind();
         }
     }
 }

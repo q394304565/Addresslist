@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.lbParentName = new System.Windows.Forms.Label();
             this.lbName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
@@ -37,42 +35,25 @@
             this.lbMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "父级联系组";
-            // 
-            // lbParentName
-            // 
-            this.lbParentName.AutoSize = true;
-            this.lbParentName.Location = new System.Drawing.Point(87, 9);
-            this.lbParentName.Name = "lbParentName";
-            this.lbParentName.Size = new System.Drawing.Size(0, 12);
-            this.lbParentName.TabIndex = 1;
-            // 
             // lbName
             // 
             this.lbName.AutoSize = true;
-            this.lbName.Location = new System.Drawing.Point(18, 36);
+            this.lbName.Location = new System.Drawing.Point(7, 22);
             this.lbName.Name = "lbName";
-            this.lbName.Size = new System.Drawing.Size(65, 12);
+            this.lbName.Size = new System.Drawing.Size(77, 12);
             this.lbName.TabIndex = 2;
-            this.lbName.Text = "联系组名称";
+            this.lbName.Text = "联系组名称：";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(89, 27);
+            this.txtName.Location = new System.Drawing.Point(83, 14);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(142, 21);
+            this.txtName.Size = new System.Drawing.Size(148, 21);
             this.txtName.TabIndex = 3;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(34, 93);
+            this.btnOK.Location = new System.Drawing.Point(35, 65);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -82,7 +63,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(124, 93);
+            this.btnCancel.Location = new System.Drawing.Point(125, 65);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -94,7 +75,7 @@
             // 
             this.lbMessage.AutoSize = true;
             this.lbMessage.ForeColor = System.Drawing.Color.Red;
-            this.lbMessage.Location = new System.Drawing.Point(41, 66);
+            this.lbMessage.Location = new System.Drawing.Point(34, 46);
             this.lbMessage.Name = "lbMessage";
             this.lbMessage.Size = new System.Drawing.Size(0, 12);
             this.lbMessage.TabIndex = 6;
@@ -104,14 +85,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(249, 130);
+            this.ClientSize = new System.Drawing.Size(243, 102);
             this.Controls.Add(this.lbMessage);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lbName);
-            this.Controls.Add(this.lbParentName);
-            this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -126,8 +105,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lbParentName;
         private System.Windows.Forms.Label lbName;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Button btnOK;

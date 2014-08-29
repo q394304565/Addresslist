@@ -76,13 +76,10 @@ namespace ContactlistManage
                 if (user != null)
                 {
                     GlobalData.Current.CurrentUser = user;
-                    GlobalData.Current.UserConfig = new UserConfig
-                        {
-                            IsSaveName = cbRemindName.Checked,
-                            IsSavePassword = cbRemindPassword.Checked,
-                            UserName = txtUName.Text,
-                            Password = txtPassword.Text,
-                        };
+                    GlobalData.Current.UserConfig.IsSaveName = cbRemindName.Checked;
+                    GlobalData.Current.UserConfig.IsSavePassword = cbRemindPassword.Checked;
+                    GlobalData.Current.UserConfig.UserName = txtUName.Text;
+                    GlobalData.Current.UserConfig.Password = txtPassword.Text;
                     SQLiteOperate.ModifyUserConfig(GlobalData.Current.UserConfig);
                     MessageBox.Show(this, string.Format("欢迎{0}登录！", string.IsNullOrEmpty(user.Name) ? user.UName : user.Name));
                     Hide();

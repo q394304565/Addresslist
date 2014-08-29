@@ -19,14 +19,20 @@ namespace ContactlistManage
     {
         private List<TB_ContactPersonGroup> _contactPersonGroups;
         private List<TB_ContactPerson> _contactPersons;
+        readonly TreeNode _treeNode = new TreeNode("全部分组") { Tag = new TB_ContactPersonGroup { Id = 0 } };
         public Main()
         {
             InitializeComponent();
+            tvItems.Nodes.Add(_treeNode);
+
             var addPMenu = new ContextMenu();
             addPMenu.MenuItems.Add("添加联系人组", AddGroup);
-            tvItems.ContextMenu = addPMenu;
+            addPMenu.MenuItems.Add("删除全部联系人组", DelAllGroup);
+            addPMenu.MenuItems.Add("添加联系人", AddContactPerson);
+            _treeNode.ContextMenu = addPMenu;
             if (GlobalData.Current.CurrentUser.UType != (int)UserType.Manage)
-                MIUserManage.Visible = false;
+                btnUserManage.Visible = false;
+            cDataGridView.AutoGenerateColumns = false;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -39,11 +45,17 @@ namespace ContactlistManage
                     {
                         var treeNode = CreateGroupTreeNode(source);
                         treeNode.ContextMenu = CreateGroupContextMenu(treeNode);
-                        tvItems.Nodes.Add(treeNode);
+                        _treeNode.Nodes.Add(treeNode);
                         ForeachTreeNode(treeNode, source.Id);
                     }
                     tvItems.ExpandAll();
-                    if (!GlobalData.Current.UserConfig.IsNotRemind)
+                    //设置分组列表
+                    var contactPersonGroups = new List<TB_ContactPersonGroup>();
+                    contactPersonGroups.Add(new TB_ContactPersonGroup { Id = 0, Name = "未分组" });
+                    contactPersonGroups.AddRange(_contactPersonGroups);
+                    cbGroup.DataSource = contactPersonGroups;
+                    cbGroup.DisplayMember = "Name";
+                    if (GlobalData.Current.UserConfig.IsNotRemind)
                     {
                         var birthdayContents = CheckBirthdays();
                         if (birthdayContents.Count > 0)
@@ -68,25 +80,17 @@ namespace ContactlistManage
             {
                 cbSkin.SelectedIndex = 0;
             }
+            tvItems.SelectedNode = _treeNode;
         }
 
         private void SetUserInfo()
         {
-            lbName.Text = string.Format("您好，{0}", string.IsNullOrEmpty(GlobalData.Current.CurrentUser.Name)
+            lbName.Text = string.Format("欢迎{0}使用通讯录管理系统", string.IsNullOrEmpty(GlobalData.Current.CurrentUser.Name)
              ? GlobalData.Current.CurrentUser.UName
              : GlobalData.Current.CurrentUser.Name);
             if (GlobalData.Current.CurrentUser.Favicon != null)
             {
-                using (var myStream = new MemoryStream())
-                {
-                    foreach (byte a in GlobalData.Current.CurrentUser.Favicon)
-                    {
-                        myStream.WriteByte(a);
-                    }
-                    var myImage = Image.FromStream(myStream);
-                    myStream.Close();
-                    pbImage.Image = myImage;
-                }
+                GlobalData.Current.SetImage(pbImage, GlobalData.Current.CurrentUser.Favicon);
             }
         }
 
@@ -97,10 +101,14 @@ namespace ContactlistManage
         private List<BirthdayContent> CheckBirthdays()
         {
             var birthdayContents = new List<BirthdayContent>();
+            GetContactPersonsByUIdAndTypeId(0);
+            if (_contactPersons == null)
+                return new List<BirthdayContent>();
             foreach (var birthday in _contactPersons)
             {
                 if (string.IsNullOrEmpty(birthday.Birthday)) continue;
                 var date = Convert.ToDateTime(birthday.Birthday);
+                int age = DateTime.Now.Year - date.Year;
                 var noewBirthday = Convert.ToDateTime(DateTime.Now.Year + "-" + date.Month + "-" + date.Day);
                 var days = noewBirthday.Subtract(DateTime.Now.Date).TotalDays;
                 if (days <= 1 && days > 0)
@@ -109,7 +117,7 @@ namespace ContactlistManage
                     {
                         Guid = Guid.NewGuid(),
                         Birthday = date.Month + "-" + date.Day,
-                        Content = string.Format("明日{0}为{1}的生日，别忘了送上生日祝福！", date.Month + "-" + date.Day, birthday.Name)
+                        Content = string.Format("明日{0}为{1}的{2}岁生日，别忘了送上生日祝福！", date.Month + "-" + date.Day, birthday.Name, age)
                     });
                 }
                 else if (days <= 0 && days > -1)
@@ -118,7 +126,7 @@ namespace ContactlistManage
                     {
                         Guid = Guid.NewGuid(),
                         Birthday = date.Month + "-" + date.Day,
-                        Content = string.Format("今天{0}为{1}的生日，别忘了送上生日祝福！", date.Month + "-" + date.Day, birthday.Name)
+                        Content = string.Format("今天{0}为{1}的{2}岁生日，别忘了送上生日祝福！", date.Month + "-" + date.Day, birthday.Name, age)
                     });
                 }
             }
@@ -138,49 +146,9 @@ namespace ContactlistManage
                 node.Nodes.Add(treeNode);
                 ForeachTreeNode(treeNode, source.Id);
             }
-            var contactPersons = _contactPersons.Where(p => p.UType == parentId);
-            foreach (var contactPerson in contactPersons)
-            {
-                var cpNode = CreateTreeNode(contactPerson);
-                node.Nodes.Add(cpNode);
-            }
         }
 
         #region ContactPerson
-        /// <summary>
-        /// 创建联系人树节点
-        /// </summary>
-        /// <param name="contactPerson"></param>
-        /// <returns></returns>
-        private TreeNode CreateTreeNode(TB_ContactPerson contactPerson)
-        {
-            var cpNode = new TreeNode(contactPerson.Name)
-            {
-                Tag = contactPerson,
-                ToolTipText = string.Format("联系人：{0}", contactPerson.Name),
-            };
-            cpNode.ContextMenu = CreateContextMenu(cpNode);
-            return cpNode;
-        }
-
-        /// <summary>
-        /// 创建联系人右键菜单
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        private ContextMenu CreateContextMenu(TreeNode node)
-        {
-            var addPMenu = new ContextMenu();
-            addPMenu.MenuItems.Add("添加联系人", AddContactPerson);
-            addPMenu.MenuItems.Add("修改联系人", ModifyContactPerson);
-            addPMenu.MenuItems.Add("删除联系人", DeleteContactPerson);
-            addPMenu.Popup += (s, ex) =>
-            {
-                tvItems.SelectedNode = node;
-            };
-            return addPMenu;
-        }
-
         /// <summary>
         /// 创建联系人
         /// </summary>
@@ -189,137 +157,25 @@ namespace ContactlistManage
         private void AddContactPerson(object sender, EventArgs e)
         {
             var menuItem = sender as MenuItem;
-            int uType = 0;
-            bool isGroup = false;
             if (tvItems.SelectedNode != null)
             {
                 var contactPersonGroup = tvItems.SelectedNode.Tag as TB_ContactPersonGroup;
                 if (contactPersonGroup != null)
                 {
-                    isGroup = true;
-                    uType = contactPersonGroup.Id;
-                }
-                else
-                {
-                    var contactPerson = tvItems.SelectedNode.Tag as TB_ContactPerson;
-                    if (contactPerson != null)
+                    var g = new ContactPersonOperate()
                     {
-                        uType = contactPerson.UType;
-                    }
-                }
-                var g = new ContactPersonOperate()
-                {
-                    Text = menuItem.Text,
-                    ContactPerson = new TB_ContactPerson
-                    {
-                        UId = GlobalData.Current.CurrentUser.Id,
-                        UType = uType
-                    }
-                };
-                if (g.ShowDialog(this) == DialogResult.OK)
-                {
-                    if (tvItems.SelectedNode != null)
-                    {
-                        if (isGroup)
+                        Text = menuItem.Text,
+                        ContactPerson = new TB_ContactPerson
                         {
-                            tvItems.SelectedNode.Nodes.Add(CreateTreeNode(g.ContactPerson));
+                            UId = GlobalData.Current.CurrentUser.Id,
+                            UType = contactPersonGroup.Id
                         }
-                        else
-                        {
-                            tvItems.SelectedNode.Parent.Nodes.Add(CreateTreeNode(g.ContactPerson));
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改联系人
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ModifyContactPerson(object sender, EventArgs e)
-        {
-            var menuItem = sender as MenuItem;
-            if (tvItems.SelectedNode != null)
-            {
-                var contactPerson = tvItems.SelectedNode.Tag as TB_ContactPerson;
-                var g = new ContactPersonOperate()
-                {
-                    Text = menuItem.Text,
-                    ContactPerson = contactPerson
-                };
-                var type = contactPerson.UType;
-                if (g.ShowDialog(this) == DialogResult.OK)
-                {
-                    tvItems.SelectedNode.Text = g.ContactPerson.Name;
-                    tvItems.SelectedNode.Tag = g.ContactPerson;
-                    tvItems.SelectedNode.ToolTipText = string.Format("联系人：{0}", g.ContactPerson.Name);
-                    var node = tvItems.SelectedNode;
-                    if (type != g.ContactPerson.UType)
+                    };
+                    if (g.ShowDialog(this) == DialogResult.OK)
                     {
-                        FindTreeNode(node, g.ContactPerson.UType);
+                        tvItems_AfterSelect(null, null);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// 查找树节点
-        /// </summary>
-        /// <param name="newNode"></param>
-        /// <param name="id"></param>
-        private void FindTreeNode(TreeNode newNode, int id)
-        {
-            tvItems.Nodes.Remove(newNode);
-            foreach (TreeNode node in tvItems.Nodes)
-            {
-                var gNode = node.Tag as TB_ContactPersonGroup;
-                if (gNode != null && gNode.Id == id)
-                {
-                    node.Nodes.Add(newNode);
-                    return;
-                }
-                else
-                    FindTreeNode(node, newNode, id);
-            }
-        }
-
-        private void FindTreeNode(TreeNode pNode, TreeNode newNode, int id)
-        {
-            foreach (TreeNode node in pNode.Nodes)
-            {
-                var gNode = node.Tag as TB_ContactPersonGroup;
-                if (gNode != null && gNode.Id == id)
-                {
-                    node.Nodes.Add(newNode);
-                    return;
-                }
-                else
-                {
-                    FindTreeNode(node, newNode, id);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 删除联系人
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeleteContactPerson(object sender, EventArgs e)
-        {
-            if (tvItems.SelectedNode != null)
-            {
-                var contactPerson = tvItems.SelectedNode.Tag as TB_ContactPerson;
-                HandleData(() =>
-                {
-                    BLLOperate.DeleteItem<TB_ContactPerson>(contactPerson.Id);
-                    if (tvItems.SelectedNode.Parent == null)
-                        tvItems.Nodes.Remove(tvItems.SelectedNode);
-                    else
-                        tvItems.SelectedNode.Parent.Nodes.Remove(tvItems.SelectedNode);
-                }, s => MessageBox.Show(this, s));
             }
         }
         #endregion
@@ -333,8 +189,7 @@ namespace ContactlistManage
         private ContextMenu CreateGroupContextMenu(TreeNode node)
         {
             var addPMenu = new ContextMenu();
-            addPMenu.MenuItems.Add("添加同级联系人组", AddGroup);
-            addPMenu.MenuItems.Add("添加子集联系人组", AddSubGroup);
+            addPMenu.MenuItems.Add("添加联系人组", AddGroup);
             addPMenu.MenuItems.Add("修改联系人组", ModifyGroup);
             addPMenu.MenuItems.Add("删除联系人组", DeleteGroup);
             addPMenu.MenuItems.Add("添加联系人", AddContactPerson);
@@ -362,28 +217,32 @@ namespace ContactlistManage
             treeNode.ContextMenu = CreateGroupContextMenu(treeNode);
             return treeNode;
         }
+
         /// <summary>
-        /// 添加同级联系人组
+        /// 删除全部联系人组
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DelAllGroup(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 添加联系人组
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void AddGroup(object sender, EventArgs e)
         {
             var menuItem = sender as MenuItem;
-            string parentName = string.Empty;
-            TB_ContactPersonGroup contactPersonGroup = null;
-            if (tvItems.SelectedNode != null)
-            {
-                contactPersonGroup = tvItems.SelectedNode.Tag as TB_ContactPersonGroup;
-                if (tvItems.SelectedNode.Parent != null) parentName = tvItems.SelectedNode.Parent.Text;
-            }
-            var g = new GroupOperate(parentName)
+            var g = new GroupOperate
             {
                 Text = menuItem.Text,
                 ContactPersonGroup = new TB_ContactPersonGroup
                 {
                     UId = GlobalData.Current.CurrentUser.Id,
-                    ParentId = contactPersonGroup == null ? 0 : contactPersonGroup.ParentId
+                    ParentId = 0
                 }
             };
             if (g.ShowDialog(this) == DialogResult.OK)
@@ -396,34 +255,6 @@ namespace ContactlistManage
         }
 
         /// <summary>
-        /// 添加子集联系人组
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddSubGroup(object sender, EventArgs e)
-        {
-            var menuItem = sender as MenuItem;
-            if (tvItems.SelectedNode != null)
-            {
-                var contactPersonGroup = tvItems.SelectedNode.Tag as TB_ContactPersonGroup;
-                var g = new GroupOperate(contactPersonGroup.Name)
-                {
-                    Text = menuItem.Text,
-                    ContactPersonGroup = new TB_ContactPersonGroup
-                    {
-                        UId = GlobalData.Current.CurrentUser.Id,
-                        ParentId = contactPersonGroup.Id
-                    }
-                };
-                if (g.ShowDialog(this) == DialogResult.OK)
-                {
-                    tvItems.SelectedNode.Nodes.Add(CreateGroupTreeNode(g.ContactPersonGroup));
-                }
-            }
-
-        }
-
-        /// <summary>
         /// 修改联系人组
         /// </summary>
         /// <param name="sender"></param>
@@ -431,12 +262,10 @@ namespace ContactlistManage
         private void ModifyGroup(object sender, EventArgs e)
         {
             var menuItem = sender as MenuItem;
-            string parentName = string.Empty;
             if (tvItems.SelectedNode != null)
             {
                 var contactPersonGroup = tvItems.SelectedNode.Tag as TB_ContactPersonGroup;
-                if (tvItems.SelectedNode.Parent != null) parentName = tvItems.SelectedNode.Parent.Text;
-                var g = new GroupOperate(parentName)
+                var g = new GroupOperate
                 {
                     Text = menuItem.Text,
                     ContactPersonGroup = contactPersonGroup
@@ -459,7 +288,7 @@ namespace ContactlistManage
         {
             if (tvItems.SelectedNode != null)
             {
-                var contactPersonGroup = tvItems.SelectedNode.Tag as TB_ContactPersonGroup; ;
+                var contactPersonGroup = tvItems.SelectedNode.Tag as TB_ContactPersonGroup;
                 HandleData(() =>
                     {
                         BLLOperate.DeleteItem<TB_ContactPersonGroup>(contactPersonGroup.Id);
@@ -481,8 +310,22 @@ namespace ContactlistManage
             HandleData(() =>
             {
                 _contactPersonGroups = BLLOperate.GetContactPersonGroupsByUId(GlobalData.Current.CurrentUser.Id);
-                _contactPersons = BLLOperate.GetContactPersonsByUId(GlobalData.Current.CurrentUser.Id);
                 if (action != null) action();
+            }, s => MessageBox.Show(this, s));
+        }
+
+        /// <summary>
+        /// 获取联系人
+        /// </summary>
+        private void GetContactPersonsByUIdAndTypeId(int type)
+        {
+            HandleData(() =>
+            {
+                if (type == 0)
+                    _contactPersons = BLLOperate.GetContactPersonsByUId(GlobalData.Current.CurrentUser.Id);
+                else
+                    _contactPersons = BLLOperate.GetContactPersonsByUIdAndTypeId(GlobalData.Current.CurrentUser.Id, type);
+                cDataGridView.DataSource = _contactPersons;
             }, s => MessageBox.Show(this, s));
         }
 
@@ -492,12 +335,13 @@ namespace ContactlistManage
             Application.Exit();
         }
 
+        #region 顶头菜单按钮操作
         /// <summary>
         /// 注销
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MILogout_Click(object sender, EventArgs e)
+        private void btnLogout_Click(object sender, EventArgs e)
         {
             Application.Restart();
         }
@@ -507,7 +351,7 @@ namespace ContactlistManage
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MIUserManage_Click(object sender, EventArgs e)
+        private void btnUserManage_Click(object sender, EventArgs e)
         {
             var m = new UsersOperate();
             m.ShowDialog(this);
@@ -518,7 +362,7 @@ namespace ContactlistManage
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MIGalleryManage_Click(object sender, EventArgs e)
+        private void btnGalleryManage_Click(object sender, EventArgs e)
         {
             var g = new Gallery();
             g.ShowDialog(this);
@@ -529,7 +373,7 @@ namespace ContactlistManage
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MIModifyPassword_Click(object sender, EventArgs e)
+        private void btnModifyPassword_Click(object sender, EventArgs e)
         {
             var m = new ModifyPassword();
             m.ShowDialog(this);
@@ -549,6 +393,13 @@ namespace ContactlistManage
             }
         }
 
+        #endregion
+
+        /// <summary>
+        /// 皮肤更换
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbSkin_SelectedIndexChanged(object sender, EventArgs e)
         {
             var fileInfo = cbSkin.SelectedItem as FileInformation;
@@ -557,5 +408,203 @@ namespace ContactlistManage
             SQLiteOperate.ModifyUserConfig(GlobalData.Current.UserConfig);
             GlobalData.Current.SkinEngine.SkinFile = fileInfo.FilePath;
         }
+
+        private void cDataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            Sex.DataPropertyName = null;
+
+            for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++)
+            {
+                // 通过行（或项）的绑定对象拿到性别
+                // 判断该如何显示，此处的DataBoungItem相当于Tag是在绑定数据源时自动绑定的（当然，它是只读的……）
+                cDataGridView.Rows[i].Cells[Sex.Index].Value = GlobalData.Current.GetSex((cDataGridView.Rows[i].DataBoundItem as TB_ContactPerson).Sex);
+            }
+        }
+
+        private void cDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var contactPerson = cDataGridView.Rows[e.RowIndex].DataBoundItem as TB_ContactPerson;
+            if (e.ColumnIndex < 0 || cDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null) return;
+            string buttonText = cDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            HandleData(() =>
+            {
+                switch (buttonText)
+                {
+                    case "修改":
+                        var g = new ContactPersonOperate()
+                        {
+                            Text = "修改联系人",
+                            ContactPerson = contactPerson
+                        };
+                        if (g.ShowDialog(this) == DialogResult.OK)
+                        {
+                            tvItems_AfterSelect(null, null);
+                        }
+                        break;
+                    case "删除":
+                        if (MessageBox.Show(this, "确定删除联系人？", "删除联系人", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        {
+                            var id = BLLOperate.DeleteItem<TB_ContactPerson>(contactPerson.Id);
+                            MessageBox.Show(this, id > 0 ? "删除成功！" : "删除失败");
+                            tvItems_AfterSelect(null, null);
+                        }
+                        break;
+                }
+
+            }, s => MessageBox.Show(this, s));
+        }
+
+        /// <summary>
+        /// 联系人信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            var rows = cDataGridView.SelectedRows;
+            if (rows.Count == 0) return;
+            var contactPerson = rows[0].DataBoundItem as TB_ContactPerson;
+            lbPName.Text = contactPerson.Name;
+            lbSex.Text = GlobalData.Current.GetSex(contactPerson.Sex);
+            lbBirthday.Text = contactPerson.Birthday;
+            lbTelephone.Text = contactPerson.Telephone;
+            lbCellPhone.Text = contactPerson.Callphone;
+            lbEmail.Text = contactPerson.Email;
+            lbAddress.Text = contactPerson.Address;
+            if (!string.IsNullOrEmpty(contactPerson.Birthday))
+            {
+                var date = Convert.ToDateTime(contactPerson.Birthday);
+                lbAge.Text = string.Format("{0}岁", DateTime.Now.Year - date.Year);
+            }
+            if (contactPerson.Favicon != null)
+            {
+                GlobalData.Current.SetImage(pbFavicon, contactPerson.Favicon);
+            }
+        }
+
+        /// <summary>
+        /// 联系人组被选择
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tvItems_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            var nodeItem = tvItems.SelectedNode;
+            var group = nodeItem.Tag as TB_ContactPersonGroup;
+            GetContactPersonsByUIdAndTypeId(group.Id);
+        }
+
+        /// <summary>
+        /// 搜索
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                MessageBox.Show(this, "请输入");
+                return;
+            }
+            var items = cDataGridView.DataSource as List<TB_ContactPerson>;
+            cDataGridView.ClearSelection();
+            var index = items.FindIndex(p => p.Name.Contains(txtSearch.Text)
+                || p.Telephone.Contains(txtSearch.Text)
+                || p.Callphone.Contains(txtSearch.Text)
+                || p.Email.Contains(txtSearch.Text));
+            if (index >= 0)
+            {
+                cDataGridView.Rows[index].Selected = true;
+            }
+            else
+            {
+                MessageBox.Show(this, "未找到联系人！");
+            }
+        }
+
+        /// <summary>
+        /// 删除选中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDelSelected_Click(object sender, EventArgs e)
+        {
+            if (cDataGridView.SelectedRows.Count == 0) return;
+            if (MessageBox.Show(this, "确定删除选中的联系人？", "删除联系人", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                HandleData(() =>
+                {
+                    foreach (DataGridViewRow selectedRow in cDataGridView.SelectedRows)
+                    {
+                        var contactPerson = selectedRow.DataBoundItem as TB_ContactPerson;
+                        BLLOperate.DeleteItem<TB_ContactPerson>(contactPerson.Id);
+                    }
+                    MessageBox.Show(this, "删除成功！");
+                    tvItems_AfterSelect(null, null);
+                }, s => MessageBox.Show(this, s));
+            }
+        }
+
+        /// <summary>
+        /// 转移分组
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cDataGridView.SelectedRows.Count == 0) return;
+            HandleData(() =>
+            {
+                foreach (DataGridViewRow selectedRow in cDataGridView.SelectedRows)
+                {
+                    var contactPerson = selectedRow.DataBoundItem as TB_ContactPerson;
+                    BLLOperate.AddOrModifyItem<TB_ContactPerson>(contactPerson);
+                }
+                MessageBox.Show(this, "转移成功！");
+                tvItems_AfterSelect(null, null);
+            }, s => MessageBox.Show(this, s));
+        }
+
+        /// <summary>
+        /// 批量导入
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnBatchImport_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 导出选中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExportSelected_Click(object sender, EventArgs e)
+        {
+            if (cDataGridView.SelectedRows.Count == 0) return;
+            try
+            {
+                var saveFileDialog = new SaveFileDialog { Filter = "Excel 97 - 2003 工作薄(*.xls)|*.xls" }; ;
+                if (saveFileDialog.ShowDialog(this)==DialogResult.OK)
+                {
+
+                    using (var fs = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write))
+                    {
+                        byte[] bytes = Encoding.UTF8.GetBytes(DataGridToXmlSpreadSheet());
+                        fs.Write(bytes, 0, bytes.Length);
+                        fs.Close();
+                    }
+                }
+
+                MessageBoxEx.Show(_view, "导出成功！");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.ToString());
+                MessageBoxEx.Show(_view, "导出失败,请检查文件是否被占用");
+            }
+        }
+
     }
 }

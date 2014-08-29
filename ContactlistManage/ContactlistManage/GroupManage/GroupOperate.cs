@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Infrastructure;
 using Model;
@@ -15,10 +10,9 @@ namespace ContactlistManage.GroupManage
     {
         public TB_ContactPersonGroup ContactPersonGroup { get; set; }
 
-        public GroupOperate(string pName)
+        public GroupOperate()
         {
             InitializeComponent();
-            lbParentName.Text = pName;
         }
 
         private void GroupOperate_Load(object sender, EventArgs e)

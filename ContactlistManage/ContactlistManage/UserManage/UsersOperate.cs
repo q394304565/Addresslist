@@ -34,35 +34,17 @@ namespace ContactlistManage.UserManage
 
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            // 如果能通过对象拿到性别，可以采用如下做法显示对应中文
-
-            // 取消对列属性的绑定
             Sex.DataPropertyName = null;
-
             for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++)
             {
-                // 通过行（或项）的绑定对象拿到性别
-                // 判断该如何显示，此处的DataBoungItem相当于Tag是在绑定数据源时自动绑定的（当然，它是只读的……）
-                string sex;
-                switch ((SexType)(dataGridView1.Rows[i].DataBoundItem as TB_User).Sex)
-                {
-                    case SexType.Lady:
-                        sex = "女";
-                        break;
-                    case SexType.Man:
-                        sex = "男";
-                        break;
-                    default:
-                        sex = "无";
-                        break;
-                }
-                dataGridView1.Rows[i].Cells[Sex.Index].Value = sex;
+                dataGridView1.Rows[i].Cells[Sex.Index].Value = GlobalData.Current.GetSex((dataGridView1.Rows[i].DataBoundItem as TB_User).Sex);
             }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             var user = dataGridView1.Rows[e.RowIndex].DataBoundItem as TB_User;
+            if (e.ColumnIndex < 0 || dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value == null) return;
             string buttonText = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             HandleData(() =>
             {

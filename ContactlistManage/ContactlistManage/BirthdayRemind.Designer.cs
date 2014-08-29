@@ -31,6 +31,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnPrev = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnKnow = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -45,7 +48,7 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(240, 54);
+            this.btnNext.Location = new System.Drawing.Point(246, 3);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 1;
@@ -55,13 +58,34 @@
             // 
             // btnPrev
             // 
-            this.btnPrev.Location = new System.Drawing.Point(159, 54);
+            this.btnPrev.Location = new System.Drawing.Point(165, 3);
             this.btnPrev.Name = "btnPrev";
             this.btnPrev.Size = new System.Drawing.Size(75, 23);
             this.btnPrev.TabIndex = 0;
             this.btnPrev.Text = "上一个";
             this.btnPrev.UseVisualStyleBackColor = true;
             this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.btnNext);
+            this.flowLayoutPanel1.Controls.Add(this.btnPrev);
+            this.flowLayoutPanel1.Controls.Add(this.btnKnow);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1, 54);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(324, 34);
+            this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // btnKnow
+            // 
+            this.btnKnow.Location = new System.Drawing.Point(84, 3);
+            this.btnKnow.Name = "btnKnow";
+            this.btnKnow.Size = new System.Drawing.Size(75, 23);
+            this.btnKnow.TabIndex = 2;
+            this.btnKnow.Text = "知道了";
+            this.btnKnow.UseVisualStyleBackColor = true;
+            this.btnKnow.Click += new System.EventHandler(this.btnKnow_Click);
             // 
             // BirthdayRemind
             // 
@@ -70,8 +94,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(323, 85);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnNext);
-            this.Controls.Add(this.btnPrev);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -80,6 +103,7 @@
             this.Text = "生日提醒";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BirthdayRemind_FormClosing);
             this.Load += new System.EventHandler(this.BirthdayRemind_Load);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -90,5 +114,7 @@
         private System.Windows.Forms.Button btnPrev;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btnKnow;
     }
 }

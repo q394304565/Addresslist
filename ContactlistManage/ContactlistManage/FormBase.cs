@@ -22,7 +22,7 @@ namespace ContactlistManage
         /// <param name="message"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        protected bool VerifyRequired(TextBox textBox, Label message = null, string name = null)
+        protected bool VerifyRequired(TextBoxBase textBox, Label message = null, string name = null)
         {
             if (string.IsNullOrWhiteSpace(textBox.Text))
             {

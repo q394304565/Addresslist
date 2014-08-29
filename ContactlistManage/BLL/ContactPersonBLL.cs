@@ -26,5 +26,16 @@ namespace BLL
         {
             return _dalOperate.IsExistContactPersonName(id, uId, name);
         }
+
+        /// <summary>
+        /// 获取用户某个分组的联系人
+        /// </summary>
+        /// <param name="uId">用户编号</param>
+        /// <param name="typeId">分组编号</param>
+        /// <returns></returns>
+        public List<TB_ContactPerson> GetContactPersonsByUIdAndTypeId(int uId, int typeId)
+        {
+            return _dalOperate.GetContactPersonsByUIdAndTypeId(uId, typeId);
+        }
     }
 }

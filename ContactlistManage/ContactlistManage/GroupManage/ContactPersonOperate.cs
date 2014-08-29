@@ -45,7 +45,11 @@ namespace ContactlistManage.GroupManage
             userInfo.CbSex.SelectedValue = ContactPerson.Sex;
             HandleData(() =>
                 {
-                    cbGroups.DataSource = BLLOperate.GetContactPersonGroupsByUId(GlobalData.Current.CurrentUser.Id);
+                    var contactPersonGroups = new List<TB_ContactPersonGroup>();
+                    contactPersonGroups.Add(new TB_ContactPersonGroup { Id = 0, Name = "未分组" });
+                    var groups = BLLOperate.GetContactPersonGroupsByUId(GlobalData.Current.CurrentUser.Id);
+                    contactPersonGroups.AddRange(groups);
+                    cbGroups.DataSource = contactPersonGroups;
                     cbGroups.DisplayMember = "Name";
                     cbGroups.ValueMember = "Id";
                     cbGroups.SelectedValue = ContactPerson.UType;
@@ -64,6 +68,15 @@ namespace ContactlistManage.GroupManage
             {
                 return;
             }
+            if (VerifyRequired(userInfo.TxtCallPhone, lbMessage, "手机") && VerifyRequired(userInfo.TxtTelephone, lbMessage, "电话"))
+                return;
+            if (DateTime.Compare(userInfo.DtBirthday.Value,DateTime.Now)>0)
+            {
+                lbMessage.ForeColor = Color.Red;
+                lbMessage.Text = "生日不得晚于今天";
+                userInfo.DtBirthday.Focus();
+            }
+
             if (BLLOperate.IsExistContactPersonName(ContactPerson.Id, GlobalData.Current.CurrentUser.Id, userInfo.TxtName.Text))
             {
                 lbMessage.ForeColor = Color.Red;
