@@ -7,11 +7,16 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using ContactlistManage.GalleryManage;
 using ContactlistManage.GroupManage;
 using ContactlistManage.UserManage;
 using Infrastructure;
+using Microsoft.Office.Interop.Excel;
 using Model;
+using Action = System.Action;
+using Application = System.Windows.Forms.Application;
+using MenuItem = System.Windows.Forms.MenuItem;
 
 namespace ContactlistManage
 {
@@ -572,7 +577,116 @@ namespace ContactlistManage
         /// <param name="e"></param>
         private void btnBatchImport_Click(object sender, EventArgs e)
         {
+            Import();
+        }
 
+        private string OpenFile()
+        {
+            try
+            {
+                var dialog = new OpenFileDialog { Filter = "Excel Files(*.xls;*.xlsx;*.csv)|*.xls;*.xlsx;*.csv" };
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    return dialog.FileName;
+
+                return string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
+        private void Import()
+        {
+            var path = OpenFile();
+            if (string.IsNullOrEmpty(path))
+                return;
+            Microsoft.Office.Interop.Excel.Application app = null;
+            try
+            {
+                app = new Microsoft.Office.Interop.Excel.Application();
+                app.DisplayAlerts = false;
+                app.AlertBeforeOverwriting = false;
+
+                app.Workbooks.Open(path);
+
+                dynamic _wb = app.Workbooks[1];
+
+                //生成CSV文件，并保存
+                string fileName = Path.GetTempFileName() + ".csv";
+                _wb.SaveAs(fileName, (int)XlFileFormat.xlCSV);
+
+                _wb.Close();
+                app.Workbooks.Close();
+                _wb = null;
+
+                app.Quit();
+                app = null;
+                GC.Collect();
+                ReadData(fileName);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(this, e.Message);
+            }
+            finally
+            {
+                if(app!=null)
+                {
+                    app.Quit();
+                    app = null;
+                }
+                GC.Collect();
+            }
+        }
+
+        private void ReadData(string fileName)
+        {
+            using (var stream = new FileStream(fileName, FileMode.Open))
+            {
+                // 把 Stream 转换成 byte[] 
+                var bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                // 设置当前流的位置为流的开始 
+                stream.Seek(0, SeekOrigin.Begin);
+                string content = System.Text.Encoding.Default.GetString(bytes, 0, bytes.Length);
+                if (string.IsNullOrEmpty(content))
+                    return;
+
+                var coords = content.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                var count = coords.Count();
+                if (count <= 1)
+                    return;
+
+                var line = coords[0];
+                var values = line.Split(',');
+                if (!values.Contains("姓名"))
+                    return;
+
+                var nameIndex = Array.IndexOf(values, "姓名");
+                var utypeIndex = Array.IndexOf(values, "组类别");
+                var sexIndex = Array.IndexOf(values, "性别");
+                var birthdayIndex = Array.IndexOf(values, "生日");
+                var callphoneIndex = Array.IndexOf(values, "手机");
+                var telephoneIndex = Array.IndexOf(values, "电话");
+                var emailIndex = Array.IndexOf(values, "邮箱");
+                var addressIndex = Array.IndexOf(values, "地址");
+                var contactPersons = new List<TB_ContactPerson>();
+                for (int i = 1; i < count; i++)
+                {
+                    var contact = new TB_ContactPerson();
+                    string[] list = coords[i].Split(',');
+                    contact.Name = list[nameIndex];
+                    //contact.UType = list[utypeIndex];
+                    //contact.Sex = list[sexIndex];
+                    contact.Birthday = list[birthdayIndex];
+                    contact.Callphone = list[callphoneIndex];
+                    contact.Telephone = list[telephoneIndex];
+                    contact.Email = list[emailIndex];
+                    contact.Address = list[addressIndex];
+                    contactPersons.Add(contact);
+                }
+            }
         }
 
         /// <summary>
@@ -715,16 +829,5 @@ namespace ContactlistManage
             total.Append(end);
             return total.ToString();
         }
-
-        private bool IsNumber(object value)
-        {
-            if (value == null)
-                return false;
-            var i = 0;
-            var j = 0.0;
-            return int.TryParse(value.ToString(), out i) ||
-                double.TryParse(value.ToString(), out j);
-        }
-
     }
 }

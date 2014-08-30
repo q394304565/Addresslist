@@ -24,12 +24,12 @@
     <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/f:UserInfo.cs" caret="3936" fromTop="30" />
     <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/f:BirthdayRemind.cs" caret="1919" fromTop="65" />
     <File id="A96E3304-5CA0-439B-8A6F-E0C6FF0BB964/f:TB_ContactPersonGroup.cs" caret="0" fromTop="0" />
-    <File id="D270DF91-B4C0-4203-8062-82D38B5E074E/f:GlobalData.cs" caret="1739" fromTop="35" />
     <File id="DAFCD38F-41C9-4E4F-906F-CE43942AA4F9/f:ContactPersonDAL.cs" caret="2330" fromTop="14" />
     <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/d:GroupManage/f:ContactPersonOperate.cs" caret="4305" fromTop="39" />
     <File id="A96E3304-5CA0-439B-8A6F-E0C6FF0BB964/f:TB_ContactPerson.cs" caret="635" fromTop="17" />
     <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/d:GroupManage/f:GroupOperate.cs" caret="888" fromTop="30" />
-    <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/f:Main.cs" caret="21603" fromTop="4" />
+    <File id="D270DF91-B4C0-4203-8062-82D38B5E074E/f:GlobalData.cs" caret="2162" fromTop="31" />
+    <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/f:Main.cs" caret="24985" fromTop="23" />
   </RecentFiles>
   <RecentEdits>
     <File id="37F6BFBF-F861-4B97-AEBF-53D52026528A/f:BLLOperate.cs" caret="1049" fromTop="38" />
@@ -61,6 +61,6 @@
     <File id="A96E3304-5CA0-439B-8A6F-E0C6FF0BB964/f:TB_ContactPerson.cs" caret="196" fromTop="9" />
     <File id="DAFCD38F-41C9-4E4F-906F-CE43942AA4F9/f:ContactPersonDAL.cs" caret="2330" fromTop="14" />
     <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/d:GroupManage/f:GroupOperate.cs" caret="883" fromTop="29" />
-    <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/f:Main.cs" caret="23107" fromTop="30" />
+    <File id="6A5D2BE4-FDA4-47F3-9968-E0E926B9C1A6/f:Main.cs" caret="26079" fromTop="29" />
   </RecentEdits>
 </RecentFiles>
