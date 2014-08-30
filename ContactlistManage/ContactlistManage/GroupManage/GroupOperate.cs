@@ -26,7 +26,8 @@ namespace ContactlistManage.GroupManage
             {
                 return;
             }
-            if (BLLOperate.IsExistContactPersonGroupName(ContactPersonGroup.Id, GlobalData.Current.CurrentUser.Id, txtName.Text))
+            if (BLLOperate.IsExistContactPersonGroupName(ContactPersonGroup.Id, GlobalData.Current.CurrentUser.Id, txtName.Text)
+                || txtName.Text.Trim().Equals("未分组"))
             {
                 lbMessage.ForeColor = Color.Red;
                 lbMessage.Text = "该联系人组已存在";

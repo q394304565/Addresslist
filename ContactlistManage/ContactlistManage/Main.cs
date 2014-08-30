@@ -586,24 +586,144 @@ namespace ContactlistManage
             try
             {
                 var saveFileDialog = new SaveFileDialog { Filter = "Excel 97 - 2003 工作薄(*.xls)|*.xls" }; ;
-                if (saveFileDialog.ShowDialog(this)==DialogResult.OK)
+                if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
 
                     using (var fs = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write))
                     {
-                        byte[] bytes = Encoding.UTF8.GetBytes(DataGridToXmlSpreadSheet());
+                        byte[] bytes = Encoding.UTF8.GetBytes(DataGridToXmlSpreadSheet(cDataGridView.SelectedRows));
                         fs.Write(bytes, 0, bytes.Length);
                         fs.Close();
                     }
                 }
 
-                MessageBoxEx.Show(_view, "导出成功！");
+                MessageBox.Show(this, "导出成功！");
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
-                MessageBoxEx.Show(_view, "导出失败,请检查文件是否被占用");
+                MessageBox.Show(this, "导出失败,请检查文件是否被占用");
             }
+        }
+
+        private string DataGridToXmlSpreadSheet(DataGridViewSelectedRowCollection rows)
+        {
+            const string start =
+                "<?xml version=\"1.0\"?><?mso-application progid=\"Excel.Sheet\"?><Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">";
+
+            var styles = new StringBuilder();
+            var ws = new StringBuilder();
+            var colsstr = new StringBuilder();
+            var rowsstr = new StringBuilder();
+
+            var columnValueHeaders = new List<string>
+                                                {
+                                                    "Id",
+                                                    "Name",
+                                                    "UType",
+                                                    "Sex",
+                                                    "Birthday",
+                                                    "Callphone",
+                                                    "Telephone",
+                                                    "Email",
+                                                    "Address",
+                                                };
+            var columnHeaders = new List<string>
+                                    {
+                                        "编号",
+                                        "姓名",
+                                        "组类别",
+                                        "性别",
+                                        "生日",
+                                        "手机",
+                                        "电话",
+                                        "邮箱",
+                                        "地址",
+                                    };
+            ws.Append(
+                string.Format(
+                    "<Worksheet ss:Name=\"Sheet1\"><Table ss:ExpandedColumnCount=\"{0}\" ss:ExpandedRowCount=\"{1}\" ss:DefaultColumnWidth=\"54\" ss:DefaultRowHeight=\"14.0625\">"
+                    , columnValueHeaders.Count, rows.Count + 1));
+
+            styles.Append("<Styles>");
+            rowsstr.Append("<Row ss:AutoFitHeight=\"0\">");
+            for (int i = 0; i < columnHeaders.Count; i++)
+            {
+                styles.Append(string.Format("<Style ss:ID=\"sheader{0}\"><Alignment ss:Vertical=\"{1}\"/>", i,
+                            "Center"));
+                styles.Append("<Borders><Border ss:Position=\"Bottom\" ss:LineStyle=\"Continuous\" ss:Weight=\"1\"/>");
+                styles.Append("<Border ss:Position=\"Left\" ss:LineStyle=\"Continuous\" ss:Weight=\"1\"/>");
+                styles.Append("<Border ss:Position=\"Right\" ss:LineStyle=\"Continuous\" ss:Weight=\"1\"/>");
+                styles.Append("<Border ss:Position=\"Top\" ss:LineStyle=\"Continuous\" ss:Weight=\"1\"/>");
+                styles.Append("</Borders>");
+                styles.Append(
+                    string.Format(
+                        "<Font ss:FontName=\"宋体\" x:CharSet=\"134\" ss:Size=\"12\" ss:Bold=\"1\"/><Interior/></Style>"));
+                rowsstr.Append(
+                    string.Format("<Cell ss:StyleID=\"sheader{0}\"><Data ss:Type=\"String\" >{1}</Data></Cell>",
+                                  i, columnHeaders[i]));
+            }
+            rowsstr.Append("</Row>");
+
+            styles.Append(string.Format("<Style ss:ID=\"s{0}_{1}\"><Alignment ss:Vertical=\"{2}\"/>", 1,
+                                1, "Center"));
+            styles.Append(
+                "<Borders><Border ss:Position=\"Bottom\" ss:LineStyle=\"Continuous\" ss:Weight=\"1\"/>");
+            styles.Append("<Border ss:Position=\"Left\" ss:LineStyle=\"Continuous\" ss:Weight=\"1\"/>");
+            styles.Append("<Border ss:Position=\"Right\" ss:LineStyle=\"Continuous\" ss:Weight=\"1\"/>");
+            styles.Append("<Border ss:Position=\"Top\" ss:LineStyle=\"Continuous\" ss:Weight=\"1\"/>");
+            styles.Append("</Borders>");
+            styles.Append(
+                string.Format("<Font ss:FontName=\"宋体\" x:CharSet=\"134\" ss:Size=\"12\"/><Interior/></Style>"));
+
+            for (int row = 0; row < rows.Count; row++)
+            {
+                rowsstr.Append("<Row ss:AutoFitHeight=\"0\">");
+                for (int j = 0; j < columnValueHeaders.Count; j++)
+                {
+                    string type = "String";
+                    try
+                    {
+                        var data = rows[row].DataBoundItem as TB_ContactPerson;
+                        var value = typeof(TB_ContactPerson).GetProperty(columnValueHeaders[j]).GetValue(data, null);
+                        if (columnValueHeaders[j] == "Sex")
+                        {
+                            value = GlobalData.Current.GetSex(Convert.ToInt32(value));
+                        }
+                        else if (columnValueHeaders[j] == "UType")
+                        {
+                            var group = _contactPersonGroups.FirstOrDefault(p => p.Id == Convert.ToInt32(value));
+                            value = group != null ? group.Name : "未分组";
+                        }
+                        rowsstr.Append(string.Format("<Cell ss:StyleID=\"s{1}_{2}\"><Data ss:Type=\"{3}\" >{0}</Data></Cell>", value ?? "", 1, 1, type));
+                    }
+                    catch (Exception)
+                    {
+                        rowsstr.Append(string.Format("<Cell ss:StyleID=\"s{1}_{2}\"><Data ss:Type=\"{3}\" >{0}</Data></Cell>", "", 1, 1, type));
+                    }
+                }
+                rowsstr.Append("</Row>");
+            }
+            styles.Append("</Styles>");
+            ws.Append(colsstr);
+            ws.Append(rowsstr);
+            ws.Append("</Table></Worksheet>");
+            const string end = "</Workbook>";
+            var total = new StringBuilder();
+            total.Append(start);
+            total.Append(styles);
+            total.Append(ws);
+            total.Append(end);
+            return total.ToString();
+        }
+
+        private bool IsNumber(object value)
+        {
+            if (value == null)
+                return false;
+            var i = 0;
+            var j = 0.0;
+            return int.TryParse(value.ToString(), out i) ||
+                double.TryParse(value.ToString(), out j);
         }
 
     }
