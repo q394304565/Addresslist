@@ -18,3 +18,12 @@ F:\work\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.dl
 F:\work\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.pdb
 E:\实验\Addresslist\ContactlistManage\Infrastructure\bin\Debug\IrisSkin2.DLL
 E:\实验\Addresslist\ContactlistManage\Infrastructure\bin\Debug\System.Data.SQLite.dll
+E:\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Infrastructure.dll
+E:\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Infrastructure.pdb
+E:\Addresslist\ContactlistManage\Infrastructure\bin\Debug\IrisSkin2.DLL
+E:\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Model.dll
+E:\Addresslist\ContactlistManage\Infrastructure\bin\Debug\System.Data.SQLite.dll
+E:\Addresslist\ContactlistManage\Infrastructure\bin\Debug\Model.pdb
+E:\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.csprojResolveAssemblyReference.cache
+E:\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.dll
+E:\Addresslist\ContactlistManage\Infrastructure\obj\Debug\Infrastructure.pdb

@@ -37,5 +37,14 @@ namespace BLL
         {
             return _dalOperate.GetContactPersonsByUIdAndTypeId(uId, typeId);
         }
+
+                /// <summary>
+        /// 导入联系人
+        /// </summary>
+        /// <param name="contactPersons"></param>
+        public void AddContactPersonsByList(List<TB_ContactPerson> contactPersons)
+        {
+            _dalOperate.AddContactPersonsByList(contactPersons);
+        }
     }
 }

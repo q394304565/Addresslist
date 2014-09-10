@@ -98,6 +98,19 @@ namespace Infrastructure
             }
         }
 
+        public SexType GetSex(string sexType)
+        {
+            switch (sexType)
+            {
+                case "女":
+                    return SexType.Lady;
+                case "男":
+                    return SexType.Man;
+                default:
+                    return SexType.None;
+            }
+        }
+
         public SkinEngine SkinEngine { get; set; }
 
         /// <summary>

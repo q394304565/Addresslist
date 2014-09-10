@@ -45,7 +45,15 @@ namespace BLL
         /// <returns></returns>
         public bool ModifyPassword(int uId, string password)
         {
-            return _dalOperate.ModifyPassword(uId,password);
+            return _dalOperate.ModifyPassword(uId, password);
+        }
+
+        /// <summary>
+        /// 创建初始管理员
+        /// </summary>
+        public void CreateAdminUser()
+        {
+            _dalOperate.CreateAdminUser();
         }
     }
 }

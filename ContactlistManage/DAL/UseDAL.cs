@@ -31,6 +31,27 @@ namespace DAL
         }
 
         /// <summary>
+        /// 创建初始管理员
+        /// </summary>
+        public void CreateAdminUser()
+        {
+            using (var sqlcon = new SqlConnection(DbHelper.StrSql))
+            {
+                sqlcon.Open();
+                using (var dc = new DataContext(sqlcon))
+                {
+                    var isExistUser = dc.GetTable<TB_User>().Any(p => !p.Deleted);
+                    if (!isExistUser)
+                    {
+                        var user = new TB_User {UName="admin", Name="管理员", Password="111111" };
+                        dc.GetTable<TB_User>().InsertOnSubmit(user);
+                        dc.SubmitChanges();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 检查用户名是否存在
         /// </summary>
         /// <param name="uName">用户名</param>

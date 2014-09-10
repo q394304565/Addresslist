@@ -113,5 +113,22 @@ namespace DAL
                 }
             }
         }
+
+        /// <summary>
+        /// 导入联系人
+        /// </summary>
+        /// <param name="contactPersons"></param>
+        public void AddContactPersonsByList(List<TB_ContactPerson> contactPersons)
+        {
+            using (var sqlcon = new SqlConnection(DbHelper.StrSql))
+            {
+                sqlcon.Open();
+                using (var dc = new DataContext(sqlcon))
+                {
+                    dc.GetTable<TB_ContactPerson>().InsertAllOnSubmit(contactPersons);
+                    dc.SubmitChanges();
+                }
+            }
+        }
     }
 }

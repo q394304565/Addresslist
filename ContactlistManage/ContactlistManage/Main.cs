@@ -24,6 +24,7 @@ namespace ContactlistManage
     {
         private List<TB_ContactPersonGroup> _contactPersonGroups;
         private List<TB_ContactPerson> _contactPersons;
+        private List<TB_ContactPerson> _gridViewContactPersons;
         readonly TreeNode _treeNode = new TreeNode("全部分组") { Tag = new TB_ContactPersonGroup { Id = 0 } };
         public Main()
         {
@@ -33,7 +34,7 @@ namespace ContactlistManage
             var addPMenu = new ContextMenu();
             addPMenu.MenuItems.Add("添加联系人组", AddGroup);
             addPMenu.MenuItems.Add("删除全部联系人组", DelAllGroup);
-            addPMenu.MenuItems.Add("添加联系人", AddContactPerson);
+            //addPMenu.MenuItems.Add("添加联系人", AddContactPerson);
             _treeNode.ContextMenu = addPMenu;
             if (GlobalData.Current.CurrentUser.UType != (int)UserType.Manage)
                 btnUserManage.Visible = false;
@@ -46,13 +47,7 @@ namespace ContactlistManage
             SetUserInfo();
             LoadData(() =>
                 {
-                    foreach (var source in _contactPersonGroups.Where(p => p.ParentId == 0))
-                    {
-                        var treeNode = CreateGroupTreeNode(source);
-                        treeNode.ContextMenu = CreateGroupContextMenu(treeNode);
-                        _treeNode.Nodes.Add(treeNode);
-                        ForeachTreeNode(treeNode, source.Id);
-                    }
+                    ForeachTreeNode(_treeNode, 0);
                     tvItems.ExpandAll();
                     //设置分组列表
                     var contactPersonGroups = new List<TB_ContactPersonGroup>();
@@ -106,7 +101,6 @@ namespace ContactlistManage
         private List<BirthdayContent> CheckBirthdays()
         {
             var birthdayContents = new List<BirthdayContent>();
-            GetContactPersonsByUIdAndTypeId(0);
             if (_contactPersons == null)
                 return new List<BirthdayContent>();
             foreach (var birthday in _contactPersons)
@@ -149,11 +143,50 @@ namespace ContactlistManage
             {
                 var treeNode = CreateGroupTreeNode(source);
                 node.Nodes.Add(treeNode);
+                foreach (var item in _contactPersons.Where(p => p.UType == source.Id))
+                {
+                    treeNode.Nodes.Add(CreateTreeNode(item));
+                }
                 ForeachTreeNode(treeNode, source.Id);
             }
         }
 
         #region ContactPerson
+        /// <summary>
+        /// 创建联系人组右键菜单
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private ContextMenu CreateContextMenu(TreeNode node)
+        {
+            var addPMenu = new ContextMenu();
+            addPMenu.MenuItems.Add("修改联系人", ModifyContactPerson);
+            addPMenu.MenuItems.Add("删除联系人", DeleteContactPerson);
+            addPMenu.Popup += (s, ex) =>
+            {
+                tvItems.SelectedNode = node;
+            };
+            return addPMenu;
+        }
+
+        /// <summary>
+        /// 创建联系人组树节点
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private TreeNode CreateTreeNode(TB_ContactPerson source)
+        {
+            var treeNode = new TreeNode(source.Name)
+            {
+                Tag = source,
+                ImageIndex = 1,
+                SelectedImageIndex = 1,
+                ToolTipText = string.Format("联系人：{0}", source.Name)
+            };
+            treeNode.ContextMenu = CreateContextMenu(treeNode);
+            return treeNode;
+        }
+
         /// <summary>
         /// 创建联系人
         /// </summary>
@@ -178,9 +211,57 @@ namespace ContactlistManage
                     };
                     if (g.ShowDialog(this) == DialogResult.OK)
                     {
+                        tvItems.SelectedNode.Nodes.Add(CreateTreeNode(g.ContactPerson));
                         tvItems_AfterSelect(null, null);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 修改联系人
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ModifyContactPerson(object sender, EventArgs e)
+        {
+            var menuItem = sender as MenuItem;
+            if (tvItems.SelectedNode != null)
+            {
+                var contactPerson = tvItems.SelectedNode.Tag as TB_ContactPerson;
+                if (contactPerson != null)
+                {
+                    var g = new ContactPersonOperate()
+                    {
+                        Text = menuItem.Text,
+                        ContactPerson = contactPerson
+                    };
+                    if (g.ShowDialog(this) == DialogResult.OK)
+                    {
+                        tvItems.SelectedNode.Text = g.ContactPerson.Name;
+                        tvItems.SelectedNode.Tag = g.ContactPerson;
+                        tvItems.SelectedNode.ToolTipText = string.Format("联系人：{0}", g.ContactPerson.Name);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 删除联系人
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteContactPerson(object sender, EventArgs e)
+        {
+            if (tvItems.SelectedNode != null)
+            {
+                var contactPerson = tvItems.SelectedNode.Tag as TB_ContactPerson;
+                HandleData(() =>
+                {
+                    BLLOperate.DeleteItem<TB_ContactPerson>(contactPerson.Id);
+                    tvItems.SelectedNode.Parent.Nodes.Remove(tvItems.SelectedNode);
+                    GetContactPersonsByUIdAndTypeId(contactPerson.UType);
+                }, s => MessageBox.Show(this, s));
             }
         }
         #endregion
@@ -194,7 +275,7 @@ namespace ContactlistManage
         private ContextMenu CreateGroupContextMenu(TreeNode node)
         {
             var addPMenu = new ContextMenu();
-            addPMenu.MenuItems.Add("添加联系人组", AddGroup);
+            //addPMenu.MenuItems.Add("添加联系人组", AddGroup);
             addPMenu.MenuItems.Add("修改联系人组", ModifyGroup);
             addPMenu.MenuItems.Add("删除联系人组", DeleteGroup);
             addPMenu.MenuItems.Add("添加联系人", AddContactPerson);
@@ -215,8 +296,8 @@ namespace ContactlistManage
             var treeNode = new TreeNode(source.Name)
             {
                 Tag = source,
-                ImageIndex = 1,
-                SelectedImageIndex = 1,
+                ImageIndex = 0,
+                SelectedImageIndex = 0,
                 ToolTipText = string.Format("联系人组：{0}", source.Name)
             };
             treeNode.ContextMenu = CreateGroupContextMenu(treeNode);
@@ -252,10 +333,7 @@ namespace ContactlistManage
             };
             if (g.ShowDialog(this) == DialogResult.OK)
             {
-                if (tvItems.SelectedNode == null || tvItems.SelectedNode.Parent == null)
-                    tvItems.Nodes.Add(CreateGroupTreeNode(g.ContactPersonGroup));
-                else
-                    tvItems.SelectedNode.Parent.Nodes.Add(CreateGroupTreeNode(g.ContactPersonGroup));
+                _treeNode.Nodes.Add(CreateGroupTreeNode(g.ContactPersonGroup));
             }
         }
 
@@ -315,6 +393,7 @@ namespace ContactlistManage
             HandleData(() =>
             {
                 _contactPersonGroups = BLLOperate.GetContactPersonGroupsByUId(GlobalData.Current.CurrentUser.Id);
+                _contactPersons = BLLOperate.GetContactPersonsByUId(GlobalData.Current.CurrentUser.Id);
                 if (action != null) action();
             }, s => MessageBox.Show(this, s));
         }
@@ -326,11 +405,12 @@ namespace ContactlistManage
         {
             HandleData(() =>
             {
+                _gridViewContactPersons = new List<TB_ContactPerson>();
                 if (type == 0)
-                    _contactPersons = BLLOperate.GetContactPersonsByUId(GlobalData.Current.CurrentUser.Id);
+                    _gridViewContactPersons = BLLOperate.GetContactPersonsByUId(GlobalData.Current.CurrentUser.Id);
                 else
-                    _contactPersons = BLLOperate.GetContactPersonsByUIdAndTypeId(GlobalData.Current.CurrentUser.Id, type);
-                cDataGridView.DataSource = _contactPersons;
+                    _gridViewContactPersons = BLLOperate.GetContactPersonsByUIdAndTypeId(GlobalData.Current.CurrentUser.Id, type);
+                cDataGridView.DataSource = _gridViewContactPersons;
             }, s => MessageBox.Show(this, s));
         }
 
@@ -495,8 +575,22 @@ namespace ContactlistManage
         private void tvItems_AfterSelect(object sender, TreeViewEventArgs e)
         {
             var nodeItem = tvItems.SelectedNode;
-            var group = nodeItem.Tag as TB_ContactPersonGroup;
-            GetContactPersonsByUIdAndTypeId(group.Id);
+            if (nodeItem.Tag is TB_ContactPersonGroup)
+            {
+                var group = nodeItem.Tag as TB_ContactPersonGroup;
+                GetContactPersonsByUIdAndTypeId(group.Id);
+            }
+            else
+            {
+                var contact = nodeItem.Tag as TB_ContactPerson;
+                GetContactPersonsByUIdAndTypeId(contact.UType);
+                var index = _gridViewContactPersons.FindIndex(p => p.Id == contact.Id);
+                if (index >= 0)
+                {
+                    cDataGridView.ClearSelection();
+                    cDataGridView.Rows[index].Selected = true;
+                }
+            }
         }
 
         /// <summary>
@@ -625,13 +719,13 @@ namespace ContactlistManage
                 GC.Collect();
                 ReadData(fileName);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(this, e.Message);
             }
             finally
             {
-                if(app!=null)
+                if (app != null)
                 {
                     app.Quit();
                     app = null;
@@ -677,15 +771,23 @@ namespace ContactlistManage
                     var contact = new TB_ContactPerson();
                     string[] list = coords[i].Split(',');
                     contact.Name = list[nameIndex];
-                    //contact.UType = list[utypeIndex];
-                    //contact.Sex = list[sexIndex];
+                    var group = _contactPersonGroups.FirstOrDefault(p => p.Name.Equals(list[utypeIndex], StringComparison.CurrentCultureIgnoreCase));
+                    contact.UType = group != null ? group.Id : 0;
+                    contact.Sex = (int)GlobalData.Current.GetSex(list[sexIndex]);
                     contact.Birthday = list[birthdayIndex];
                     contact.Callphone = list[callphoneIndex];
                     contact.Telephone = list[telephoneIndex];
                     contact.Email = list[emailIndex];
                     contact.Address = list[addressIndex];
+                    contact.UId = GlobalData.Current.CurrentUser.Id;
                     contactPersons.Add(contact);
                 }
+                HandleData(() =>
+                {
+                    BLLOperate.AddContactPersonsByList(contactPersons);
+                    MessageBox.Show(this, "导入成功！");
+                    tvItems_AfterSelect(null, null);
+                }, s => MessageBox.Show(this, s));
             }
         }
 

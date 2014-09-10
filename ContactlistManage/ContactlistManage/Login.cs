@@ -58,6 +58,7 @@ namespace ContactlistManage
         /// <param name="e"></param>
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            BLLOperate.CreateAdminUser();
             if (VerifyRequired(txtUName))
             {
                 lbMessage.ForeColor = Color.Red;

@@ -12,3 +12,8 @@ F:\work\Addresslist\ContactlistManage\Model\bin\Debug\Model.pdb
 F:\work\Addresslist\ContactlistManage\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
 F:\work\Addresslist\ContactlistManage\Model\obj\Debug\Model.dll
 F:\work\Addresslist\ContactlistManage\Model\obj\Debug\Model.pdb
+E:\Addresslist\ContactlistManage\Model\bin\Debug\Model.dll
+E:\Addresslist\ContactlistManage\Model\bin\Debug\Model.pdb
+E:\Addresslist\ContactlistManage\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+E:\Addresslist\ContactlistManage\Model\obj\Debug\Model.dll
+E:\Addresslist\ContactlistManage\Model\obj\Debug\Model.pdb
