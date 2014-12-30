@@ -602,18 +602,16 @@ namespace ContactlistManage
         {
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
             {
-                MessageBox.Show(this, "请输入");
+                cDataGridView.DataSource = _gridViewContactPersons.ToList();
                 return;
             }
-            var items = cDataGridView.DataSource as List<TB_ContactPerson>;
-            cDataGridView.ClearSelection();
-            var index = items.FindIndex(p => p.Name.Contains(txtSearch.Text)
+            var list = _gridViewContactPersons.Where(p => p.Name.Contains(txtSearch.Text)
                 || p.Telephone.Contains(txtSearch.Text)
                 || p.Callphone.Contains(txtSearch.Text)
-                || p.Email.Contains(txtSearch.Text));
-            if (index >= 0)
+                || p.Email.Contains(txtSearch.Text)).ToList();
+            if (list.Any())
             {
-                cDataGridView.Rows[index].Selected = true;
+                cDataGridView.DataSource = list;
             }
             else
             {
@@ -652,11 +650,14 @@ namespace ContactlistManage
         private void cbGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cDataGridView.SelectedRows.Count == 0) return;
+            var group = cbGroup.SelectedItem as TB_ContactPersonGroup;
+            if (group == null) return;
             HandleData(() =>
             {
                 foreach (DataGridViewRow selectedRow in cDataGridView.SelectedRows)
                 {
                     var contactPerson = selectedRow.DataBoundItem as TB_ContactPerson;
+                    contactPerson.UType = group.Id;
                     BLLOperate.AddOrModifyItem<TB_ContactPerson>(contactPerson);
                 }
                 MessageBox.Show(this, "转移成功！");
